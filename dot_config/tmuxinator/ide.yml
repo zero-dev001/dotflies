@@ -1,0 +1,20 @@
+# ~/.config/tmuxinator/ide.yml
+# Usage: ide ~/Projects/myapp (or tmuxinator start ide ~/Projects/myapp)
+#
+# ┌──────┬──────────────────────────┐
+# │ 20%  │       Neovim (80%)       │
+# │      │                          │
+# │Claude├──────────────────────────┤
+# │      │      Terminal (20%)      │
+# └──────┴──────────────────────────┘
+
+name: <%= File.basename(File.expand_path(@args[0] || ".")) %>
+root: <%= @args[0] || "." %>
+
+windows:
+  - code:
+      layout: main-vertical
+      panes:
+        - claude
+        - nvim .
+        - # terminal

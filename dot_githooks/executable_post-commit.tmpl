@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Allow user overrides at runtime:
+SRC="${SRC:-{{ with dig "projectSrcPath" "" . }}$HOME/{{ . }}{{ end }}}"
+DEST="${DEST:-{{ with dig "backupDestPath" "" . }}$HOME/{{ . }}{{ end }}}"
+GLOBAL_GITIGNORE="${GLOBAL_GITIGNORE:-$HOME/.gitignore}"
+LOG_FILE="${LOG_FILE:-$HOME/.githook_backup.log}"
+RSYNC_BIN="/usr/bin/rsync"
+ASYNC="${ASYNC:-0}"
+RSYNC_FLAGS=(-a -h --exclude=.git/ '--filter=:- .gitignore' "--exclude-from=$HOME/.gitignore" --delete )
+
+mkdir -p "$DEST"
+
+# If global gitignore path provided but missing, we still proceed
+if [[ -n "${GLOBAL_GITIGNORE:-}" && ! -f "$GLOBAL_GITIGNORE" ]]; then
+  :
+fi
+
+run_rsync() {
+  if [[ "$ASYNC" == "1" ]]; then
+    nohup "$RSYNC_BIN" "${RSYNC_FLAGS[@]}" "$SRC" "$DEST" \
+      >> "$LOG_FILE" 2>&1 &
+  else
+    "$RSYNC_BIN" "${RSYNC_FLAGS[@]}" "$SRC" "$DEST" \
+      >> "$LOG_FILE" 2>&1
+  fi
+}
+
+run_rsync

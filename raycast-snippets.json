@@ -1,0 +1,310 @@
+[
+  {
+    "name": "Navigation: Jump to directory (zoxide)",
+    "text": "cd {cursor}",
+    "keyword": ";;cd"
+  },
+  {
+    "name": "Navigation: cd + auto ls",
+    "text": "cx {cursor}",
+    "keyword": ";;cx"
+  },
+  {
+    "name": "Navigation: Fuzzy find directory",
+    "text": "fcd",
+    "keyword": ";;fcd"
+  },
+  {
+    "name": "Navigation: Fuzzy find file → clipboard",
+    "text": "f",
+    "keyword": ";;f"
+  },
+  {
+    "name": "Navigation: Fuzzy find file → Neovim",
+    "text": "fv",
+    "keyword": ";;fv"
+  },
+  {
+    "name": "Navigation: Yazi file manager",
+    "text": "y",
+    "keyword": ";;y"
+  },
+  {
+    "name": "Navigation: Detailed file listing",
+    "text": "l",
+    "keyword": ";;l"
+  },
+  {
+    "name": "Navigation: Tree view",
+    "text": "lt",
+    "keyword": ";;lt"
+  },
+
+  {
+    "name": "fd: List all files recursively",
+    "text": "fd",
+    "keyword": ";;fd"
+  },
+  {
+    "name": "fd: Find files matching pattern",
+    "text": "fd \"{cursor}\"",
+    "keyword": ";;fdp"
+  },
+  {
+    "name": "fd: Files only",
+    "text": "fd --type f {cursor}",
+    "keyword": ";;fdf"
+  },
+  {
+    "name": "fd: Directories only",
+    "text": "fd --type d {cursor}",
+    "keyword": ";;fdd"
+  },
+  {
+    "name": "fd: Find by extension",
+    "text": "fd --extension {cursor}",
+    "keyword": ";;fdx"
+  },
+  {
+    "name": "fd: Include hidden files",
+    "text": "fd --hidden {cursor}",
+    "keyword": ";;fdh"
+  },
+  {
+    "name": "fd: Exclude directory",
+    "text": "fd --exclude {cursor}",
+    "keyword": ";;fde"
+  },
+
+  {
+    "name": "rg: Search pattern in all files",
+    "text": "rg \"{cursor}\"",
+    "keyword": ";;rg"
+  },
+  {
+    "name": "rg: Search in specific file type",
+    "text": "rg \"{cursor}\" --type ",
+    "keyword": ";;rgt"
+  },
+  {
+    "name": "rg: Case insensitive search",
+    "text": "rg \"{cursor}\" -i",
+    "keyword": ";;rgi"
+  },
+  {
+    "name": "rg: List only filenames",
+    "text": "rg \"{cursor}\" -l",
+    "keyword": ";;rgl"
+  },
+  {
+    "name": "rg: Show context lines",
+    "text": "rg \"{cursor}\" -C 3",
+    "keyword": ";;rgc"
+  },
+  {
+    "name": "rg: Search in specific directory",
+    "text": "rg \"{cursor}\" ",
+    "keyword": ";;rgd"
+  },
+  {
+    "name": "rg: Search with glob filter",
+    "text": "rg \"{cursor}\" --glob \"*.\"",
+    "keyword": ";;rgg"
+  },
+
+  {
+    "name": "fzf: Preview files while picking",
+    "text": "fzf --preview 'bat --color=always {}'",
+    "keyword": ";;fzp"
+  },
+  {
+    "name": "fzf: Pick file → open in nvim",
+    "text": "nvim $(fzf)",
+    "keyword": ";;fzn"
+  },
+  {
+    "name": "fzf: Pick directory → cd",
+    "text": "cd $(fd --type d | fzf)",
+    "keyword": ";;fzd"
+  },
+  {
+    "name": "fzf: Pick git branch → checkout",
+    "text": "git checkout $(git branch | fzf)",
+    "keyword": ";;fzb"
+  },
+  {
+    "name": "fzf: rg → pick → open in nvim at line",
+    "text": "rg --line-number . | fzf --delimiter : --preview 'bat --color=always {1} --highlight-line {2}' | awk -F: '{print \"+\"$2, $1}' | xargs nvim",
+    "keyword": ";;fzrg"
+  },
+
+  {
+    "name": "Git: Open lazygit",
+    "text": "lazygit",
+    "keyword": ";;lg"
+  },
+  {
+    "name": "Git: Create PR",
+    "text": "gh pr create",
+    "keyword": ";;ghpr"
+  },
+  {
+    "name": "Git: View PR in browser",
+    "text": "gh pr view --web",
+    "keyword": ";;ghpw"
+  },
+  {
+    "name": "Git: Checkout PR locally",
+    "text": "gh pr checkout {cursor}",
+    "keyword": ";;ghco"
+  },
+
+  {
+    "name": "Node: Switch Node version",
+    "text": "nvm use {cursor}",
+    "keyword": ";;nvm"
+  },
+  {
+    "name": "Node: Install Node version",
+    "text": "nvm install {cursor}",
+    "keyword": ";;nvmi"
+  },
+  {
+    "name": "Node: Bun install",
+    "text": "bun install",
+    "keyword": ";;bi"
+  },
+  {
+    "name": "Node: Bun run dev",
+    "text": "bun run dev",
+    "keyword": ";;bd"
+  },
+
+  {
+    "name": "Atuin: Search history",
+    "text": "atuin search {cursor}",
+    "keyword": ";;ats"
+  },
+  {
+    "name": "Atuin: Shell stats",
+    "text": "atuin stats",
+    "keyword": ";;att"
+  },
+
+  {
+    "name": "Chezmoi: Track a new file",
+    "text": "chezmoi add {cursor}",
+    "keyword": ";;cza"
+  },
+  {
+    "name": "Chezmoi: Edit a tracked file",
+    "text": "chezmoi edit {cursor}",
+    "keyword": ";;cze"
+  },
+  {
+    "name": "Chezmoi: Preview changes",
+    "text": "chezmoi diff",
+    "keyword": ";;czd"
+  },
+  {
+    "name": "Chezmoi: Apply changes",
+    "text": "chezmoi apply",
+    "keyword": ";;czap"
+  },
+  {
+    "name": "Chezmoi: Pull remote + apply",
+    "text": "chezmoi update",
+    "keyword": ";;czu"
+  },
+  {
+    "name": "Chezmoi: cd into source dir",
+    "text": "chezmoi cd",
+    "keyword": ";;czc"
+  },
+
+  {
+    "name": "Tmux: Start tmux",
+    "text": "tmux",
+    "keyword": ";;tm"
+  },
+  {
+    "name": "Tmux: Attach to last session",
+    "text": "tmux a",
+    "keyword": ";;tma"
+  },
+  {
+    "name": "Tmux: IDE layout",
+    "text": "ide {cursor}",
+    "keyword": ";;ide"
+  },
+  {
+    "name": "Tmux: IDE layout (tmuxinator)",
+    "text": "tmuxinator start ide {cursor}",
+    "keyword": ";;tmi"
+  },
+
+  {
+    "name": "Tmux Keys: Pane Navigation",
+    "text": "Ctrl+h/j/k/l → move between panes (works from nvim too)\nAlt+Arrow    → move between panes (no prefix)\nprefix + z   → zoom pane to fullscreen (toggle)",
+    "keyword": ";;tkp"
+  },
+  {
+    "name": "Tmux Keys: Windows & Sessions",
+    "text": "Shift+Left/Right → switch windows\nAlt+H / Alt+L    → switch windows (vim style)\nprefix + c       → new window\nprefix + o       → session picker (sessionx + zoxide)\nprefix + p       → floating terminal (floax)\nprefix + d       → detach session",
+    "keyword": ";;tkw"
+  },
+  {
+    "name": "Tmux Keys: Splits",
+    "text": "prefix + \"  → split horizontal (current path)\nprefix + %  → split vertical (current path)",
+    "keyword": ";;tks"
+  },
+  {
+    "name": "Tmux Keys: Copy Mode (vi)",
+    "text": "prefix + [  → enter copy mode\nv           → start selection\nCtrl+v      → rectangle selection\ny           → copy and exit\n/           → search forward\n?           → search backward",
+    "keyword": ";;tkc"
+  },
+
+  {
+    "name": "Neovim Keys: Find & Search",
+    "text": "<Space>ff → find files\n<Space>fg → live grep (search in files)\n<Space>fr → recent files\n<Space>fb → browse buffers\n<Space>sg → grep across project\n<Space>sw → search word under cursor\n<Space>/  → fuzzy search in buffer",
+    "keyword": ";;nkf"
+  },
+  {
+    "name": "Neovim Keys: Navigation",
+    "text": "<Space>e   → file explorer (neo-tree)\n<Space>bb  → switch buffer\n<Space>gc  → git commits\n<Space>gs  → git status (changed files)\n<Space>sH  → help tags\n<Space>sk  → keymaps\n<Space>sR  → resume last telescope picker",
+    "keyword": ";;nkn"
+  },
+  {
+    "name": "Neovim Keys: 99.nvim AI",
+    "text": "<leader>mm → select AI model\n<leader>9v → AI on visual selection\n<leader>9s → stop all AI requests",
+    "keyword": ";;nka"
+  },
+
+  {
+    "name": "Yazi Keys: Search & Navigate",
+    "text": "s     → search files by name (fd)\nS     → search files by content (rg)\nCtrl+S→ cancel search\nz     → jump via fzf\nZ     → jump via zoxide\nf     → filter current dir\n/     → find next   ? → find prev\nn / N → next / prev match",
+    "keyword": ";;yk"
+  },
+
+  {
+    "name": "fzf Keys: Built-in",
+    "text": "Ctrl+T → fuzzy find file/dir, paste path\nAlt+C  → fuzzy find dir, cd into it\nCtrl+R → fuzzy search history (atuin overrides this)",
+    "keyword": ";;fzk"
+  },
+
+  {
+    "name": "Combo: Jump to project + code",
+    "text": "cd {cursor} && nvim .",
+    "keyword": ";;go"
+  },
+  {
+    "name": "AST: Structural code search",
+    "text": "ast-grep \"{cursor}\"",
+    "keyword": ";;ast"
+  },
+  {
+    "name": "Quick help for a command",
+    "text": "tldr {cursor}",
+    "keyword": ";;tldr"
+  }
+]

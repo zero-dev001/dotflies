@@ -1,0 +1,191 @@
+# Starship Prompt - Catppuccin Mocha theme
+# Inspired by linkarzu/dotfiles-latest, adapted for Catppuccin palette
+
+palette = 'catppuccin_mocha'
+
+format = """
+$os\
+$username\
+$hostname\
+$all\
+$fill\
+$cmd_duration $time
+$directory
+$status$character
+"""
+
+[character]
+success_symbol = '[>>>>](green bold)'
+error_symbol = '[XXXX](red bold)'
+vicmd_symbol = '[<<<<](mauve bold)'
+
+[battery]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[time]
+style = 'mauve bold'
+disabled = false
+format = '[\[$time\]]($style) '
+time_format = '%y/%m/%d'
+
+[username]
+style_user = 'mauve bold'
+style_root = 'white bold'
+format = '[$user]($style).@.'
+show_always = true
+
+[hostname]
+ssh_only = true
+format = '(white bold)[$hostname](green bold)'
+
+[directory]
+style = 'sky bold'
+truncation_length = 0
+truncate_to_repo = false
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Developer" = "󰲋 "
+
+[fill]
+symbol = ' '
+
+[os]
+disabled = false
+style = 'text bold'
+
+[git_branch]
+style = 'pink bold'
+
+[git_status]
+style = 'peach bold'
+
+[git_metrics]
+disabled = false
+added_style = 'green bold'
+deleted_style = 'red bold'
+
+[git_commit]
+style = 'lavender'
+only_detached = false
+tag_disabled = false
+commit_hash_length = 7
+
+[package]
+style = 'peach bold'
+
+[status]
+disabled = false
+style = 'red bold'
+format = '[$status]($style) '
+
+[nodejs]
+style = 'green bold'
+
+[python]
+style = 'yellow bold'
+
+[rust]
+style = 'peach bold'
+
+[golang]
+style = 'sky bold'
+
+[docker_context]
+style = 'blue bold'
+
+[kubernetes]
+disabled = false
+style = 'blue bold'
+
+[cmd_duration]
+style = 'yellow bold'
+min_time = 2_000
+
+[ruby]
+detect_variables = []
+detect_files = ['Gemfile', '.ruby-version']
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+[palettes.catppuccin_frappe]
+rosewater = "#f2d5cf"
+flamingo = "#eebebe"
+pink = "#f4b8e4"
+mauve = "#ca9ee6"
+red = "#e78284"
+maroon = "#ea999c"
+peach = "#ef9f76"
+yellow = "#e5c890"
+green = "#a6d189"
+teal = "#81c8be"
+sky = "#99d1db"
+sapphire = "#85c1dc"
+blue = "#8caaee"
+lavender = "#babbf1"
+text = "#c6d0f5"
+subtext1 = "#b5bfe2"
+subtext0 = "#a5adce"
+overlay2 = "#949cbb"
+overlay1 = "#838ba7"
+overlay0 = "#737994"
+surface2 = "#626880"
+surface1 = "#51576d"
+surface0 = "#414559"
+base = "#303446"
+mantle = "#292c3c"
+crust = "#232634"
+
+[palettes.catppuccin_latte]
+rosewater = "#dc8a78"
+flamingo = "#dd7878"
+pink = "#ea76cb"
+mauve = "#8839ef"
+red = "#d20f39"
+maroon = "#e64553"
+peach = "#fe640b"
+yellow = "#df8e1d"
+green = "#40a02b"
+teal = "#179299"
+sky = "#04a5e5"
+sapphire = "#209fb5"
+blue = "#1e66f5"
+lavender = "#7287fd"
+text = "#4c4f69"
+subtext1 = "#5c5f77"
+subtext0 = "#6c6f85"
+overlay2 = "#7c7f93"
+overlay1 = "#8c8fa1"
+overlay0 = "#9ca0b0"
+surface2 = "#acb0be"
+surface1 = "#bcc0cc"

@@ -1,0 +1,22 @@
+#!/bin/bash
+# Node version: {{ include ".node-version" | trim }}
+set -euo pipefail
+
+NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+NODE_VERSION="{{ include ".node-version" | trim }}"
+
+# Install NVM if not present
+if [ ! -d "$NVM_DIR" ]; then
+  echo "Installing NVM..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+fi
+
+# Source NVM
+export NVM_DIR
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Install and use desired Node version
+echo "Installing Node.js v${NODE_VERSION}..."
+nvm install "$NODE_VERSION"
+nvm alias default "$NODE_VERSION"
+echo "Node.js v${NODE_VERSION} installed and set as default."

@@ -1,0 +1,2 @@
+[ -f "$HOME/Library/Application Support/org.dfinity.dfx/env" ] && . "$HOME/Library/Application Support/org.dfinity.dfx/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

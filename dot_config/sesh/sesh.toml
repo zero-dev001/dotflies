@@ -1,0 +1,22 @@
+[[session]]
+name = "dotfiles"
+path = "~/.local/share/chezmoi"
+startup_command = "nvim"
+preview_command = "bat --color=always ~/.local/share/chezmoi/dot_zshrc.tmpl"
+
+[[session]]
+name = "tmux config"
+path = "~/.local/share/chezmoi"
+startup_command = "nvim dot_tmux.conf"
+preview_command = "bat --color=always ~/.local/share/chezmoi/dot_tmux.conf"
+
+[[session]]
+name = "nvim config"
+path = "~/.config/nvim"
+startup_command = "nvim lua/config/lazy.lua"
+preview_command = "eza --tree --level=2 --icons ~/.config/nvim"
+
+[[session]]
+name = "Downloads"
+path = "~/Downloads"
+startup_command = "ls"

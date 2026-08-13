@@ -1,0 +1,119 @@
+prSections:
+  - title: My Pull Requests
+    filters: is:open author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+  - title: Needs My Review
+    filters: is:open review-requested:@me draft:false -org:Tribe-BTC -org:deezy-inc -org:dannydeezy sort:created-asc
+  - title: Involved
+    filters: is:open involves:@me -author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+
+issueSections:
+  - title: My Issues
+    filters: is:open author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+  - title: Assigned
+    filters: is:open assignee:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+  - title: Involved
+    filters: is:open involves:@me -author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+
+notificationsSections:
+  - title: All
+    filters: ""
+  - title: Created
+    filters: reason:author
+  - title: Participating
+    filters: reason:participating
+  - title: Mentioned
+    filters: reason:mention
+  - title: Review Requested
+    filters: reason:review-requested
+  - title: Assigned
+    filters: reason:assign
+  - title: Subscribed
+    filters: reason:subscribed
+  - title: Team Mentioned
+    filters: reason:team-mention
+
+repoPaths:
+  zero-dev001/*: {{ .chezmoi.homeDir }}/Developer/*
+
+defaults:
+  preview:
+    open: true
+    width: 0.45
+  prsLimit: 20
+  issuesLimit: 20
+  notificationsLimit: 20
+  view: prs
+  layout:
+    prs:
+      updatedAt:
+        width: 5
+      createdAt:
+        width: 5
+      repo:
+        width: 20
+      author:
+        width: 15
+      authorIcon:
+        hidden: false
+      assignees:
+        width: 20
+        hidden: true
+      base:
+        width: 15
+        hidden: true
+      lines:
+        width: 15
+    issues:
+      updatedAt:
+        width: 5
+      createdAt:
+        width: 5
+      repo:
+        width: 15
+      creator:
+        width: 10
+      creatorIcon:
+        hidden: false
+      assignees:
+        width: 20
+        hidden: true
+  refetchIntervalMinutes: 30
+
+pager:
+  diff: diffnav
+
+keybindings:
+  prs:
+    - key: g
+      name: lazygit
+      command: >
+        osascript -e 'tell application "iTerm2"' -e 'activate' -e 'tell current window' -e 'set t to (create tab with default profile)' -e 'tell current session of t' -e 'write text "cd {{ "{{" }}.RepoPath{{ "}}" }} && lazygit"' -e 'end tell' -e 'end tell' -e 'end tell'
+    - key: C
+      name: code review
+      command: >
+        osascript -e 'tell application "iTerm2"' -e 'activate' -e 'tell current window' -e 'set t to (create tab with default profile)' -e 'tell current session of t' -e 'write text "wt switch pr:{{ "{{" }}.PrNumber{{ "}}" }} -x \"zsh -ic '"'"'ide .'"'"'\"" ' -e 'end tell' -e 'end tell' -e 'end tell'
+
+theme:
+  colors:
+    text:
+      primary: "#cdd6f4"
+      secondary: "#89b4fa"
+      inverted: "#1e1e2e"
+      faint: "#6c7086"
+      warning: "#f38ba8"
+      success: "#a6e3a1"
+    background:
+      selected: "#313244"
+    border:
+      primary: "#cba6f7"
+      secondary: "#a6e3a1"
+      faint: "#45475a"
+  ui:
+    sectionsShowCount: true
+    table:
+      showSeparator: true
+      compact: true
+
+confirmQuit: false
+showAuthorIcons: true
+smartFilteringAtLaunch: true

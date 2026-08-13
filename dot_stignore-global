@@ -1,0 +1,22 @@
+// Dev artifacts
+node_modules
+.git
+dist
+build
+.DS_Store
+*.log
+target
+__pycache__
+.venv
+.cache
+.turbo
+.next
+.nuxt
+.output
+*.swp
+*.swo
+.env.local
+
+// ICP / Internet Computer
+.azle
+.dfx

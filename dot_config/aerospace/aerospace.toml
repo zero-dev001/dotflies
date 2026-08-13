@@ -1,0 +1,156 @@
+# Aerospace Tiling Window Manager
+# Inspired by linkarzu/dotfiles-latest, adapted for this setup
+
+# Start at login
+start-at-login = true
+
+# Auto-launch apps on startup
+after-startup-command = [
+    'exec-and-forget open -a "Brave Browser"',
+    'exec-and-forget open -a iTerm',
+    'exec-and-forget open -a Slack',
+    'exec-and-forget open -a Spotify',
+]
+
+# Normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Layout
+accordion-padding = 0
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+key-mapping.preset = 'qwerty'
+
+# Mouse follows focus
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = ['move-mouse window-lazy-center']
+
+# Gaps
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 0
+outer.right = 0
+outer.bottom = 0
+outer.top = [
+    { monitor."built-in" = 10 },
+    { monitor.main = 38 },
+    20,
+]
+
+# Main mode - vim-style navigation
+[mode.main.binding]
+# Layout switching
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# Focus (cmd+shift+hjkl)
+cmd-shift-h = 'focus left'
+cmd-shift-j = 'focus down'
+cmd-shift-k = 'focus up'
+cmd-shift-l = 'focus right'
+
+# Move windows (ctrl+shift+hjkl)
+ctrl-shift-h = 'move left'
+ctrl-shift-j = 'move down'
+ctrl-shift-k = 'move up'
+ctrl-shift-l = 'move right'
+
+# Fullscreen
+cmd-shift-f = 'fullscreen'
+
+# Focus back and forth
+alt-o = 'focus-back-and-forth'
+
+# Resize
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# Workspaces (alt + number)
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+
+# Move window to workspace (alt+shift + number)
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+
+# Move workspace to next monitor
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# Enter service mode
+alt-shift-semicolon = 'mode service'
+
+# Service mode - for less common operations
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main']
+f = ['layout floating tiling', 'mode main']
+backspace = ['close-all-windows-but-current', 'mode main']
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']
+
+# Floating window rules - apps that should never tile
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.calculator'
+run = 'layout floating'
+
+# Float Brave/Chrome extension popups (non-main browser windows)
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+if.window-title-regex-substring = 'Extension:|Bitwarden|1Password|Xverse|Magic Eden|OP_WALLET|OP_NET'
+run = 'layout floating'
+
+# Window rules - auto-assign apps to workspaces
+# WS1: Browsers
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+run = 'move-node-to-workspace 1'
+
+# WS2: Terminals
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = 'move-node-to-workspace 2'
+
+# WS3: Communication
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace 3'
+
+# WS4: Other/Media
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 4'
+
+# Workspace-to-monitor assignments (if you have multiple monitors)
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'secondary'

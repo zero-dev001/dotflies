@@ -1,0 +1,24 @@
+[user]
+	name = andredevjs
+	email = 97211514+andredevjs@users.noreply.github.com
+[core]
+	editor = vi
+	hooksPath = ~/.githooks
+	excludesfile = ~/.gitignore
+	pager = delta
+[init]
+	defaultBranch = main
+[safe]
+	directory = /opt/homebrew
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = Catppuccin Mocha
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
