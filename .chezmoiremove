@@ -26,3 +26,8 @@
 .config/nvim/.gitignore
 .config/nvim/README.md
 .config/nvim/LICENSE
+
+# Retired Ghostty config: the terminal emulator is iTerm2 and the Ghostty cask
+# was dropped from the Brewfile. The config still pointed at tmux (replaced by
+# Herdr) and a JetBrainsMono Nerd Font that was never installed.
+.config/ghostty

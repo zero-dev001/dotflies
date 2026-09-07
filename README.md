@@ -9,6 +9,8 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 | Shell | Zsh + Oh My Zsh + Starship prompt | `~/.zshrc` |
 | Shell plugins | zsh-syntax-highlighting, zsh-autosuggestions | (via Oh My Zsh) |
 | Editor | Neovim (LazyVim) | `~/.config/nvim/` |
+| Terminal emulator | iTerm2 + Catppuccin Mocha | `~/Library/Application Support/iTerm2/DynamicProfiles/catppuccin-mocha.json` |
+| Terminal font | Hack Nerd Font | (set by the iTerm2 profile) |
 | Terminal multiplexer | Herdr + Catppuccin | `~/.config/herdr/config.toml` |
 | Fuzzy finder | fzf | `~/.fzf.zsh` |
 | File manager | yazi | (aliased as `y`) |
@@ -273,6 +275,7 @@ These run via `chezmoi apply` when their source content changes:
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh and plugins |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
 | `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
+| `run_onchange_configure-iterm2.sh` | Script content changes | Points iTerm2 at the Catppuccin Mocha profile as its default. Skipped while iTerm2 is running, because it rewrites its plist on quit -- set it once via Settings -> Profiles in that case |
 | `run_onchange_configure-brave.sh` | Script content changes | Applies Brave policies via `defaults`: auto-installs extensions, disables Rewards/VPN promos and the built-in password manager. Profile data (bookmarks, passwords, wallet keys) is machine-bound -- use Brave Sync for that |
 | `run_once_set-default-browser.sh` | First apply only | Requests Brave as the default browser. Skips if it already is; otherwise macOS shows a confirmation prompt that must be accepted by hand (no silent method exists) |
 
@@ -294,6 +297,9 @@ A LaunchAgent (`~/Library/LaunchAgents/com.chezmoi.update.plist`) runs `chezmoi 
 ### Git
 - `~/.gitconfig` -- User, editor, global ignore
 - `~/.gitignore` -- Global gitignore (Node, Next.js, env files, etc.)
+
+### Terminal
+- `~/Library/Application Support/iTerm2/DynamicProfiles/catppuccin-mocha.json` -- iTerm2 colours, font and window settings
 
 ### Herdr
 - `~/.config/herdr/config.toml` -- Herdr keybindings, Catppuccin theme, lazygit/terminal popups
