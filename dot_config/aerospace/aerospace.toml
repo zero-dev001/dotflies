@@ -5,9 +5,21 @@
 start-at-login = true
 
 # Auto-launch apps on startup
+#
+# iTerm2 is launched with `open -a` first, which needs no permission and always
+# produces a window, and only then asked via AppleScript to type `herdr` into
+# that window. Two reasons, both learned on a fresh machine:
+#   1. An Apple Event from AeroSpace to iTerm2 needs a one-time Automation
+#      consent (System Settings -> Privacy & Security -> Automation -> AeroSpace
+#      -> iTerm). Until it is granted the osascript step fails, but the window
+#      is already open, so the worst case is typing `herdr` by hand.
+#   2. Typing the command into a shell instead of making it the session command
+#      means a missing or crashing herdr leaves a shell with the error on
+#      screen, instead of the profile's "close session on end" shutting the
+#      window before anyone sees it.
 after-startup-command = [
     'exec-and-forget open -a "Brave Browser"',
-    "exec-and-forget osascript -e 'tell application \"iTerm2\" to create window with default profile command \"herdr\"'",
+    '''exec-and-forget open -a iTerm && sleep 2 && osascript -e 'tell application "iTerm2" to tell current session of current window to write text "herdr"'''',
     'exec-and-forget open -a Slack',
     'exec-and-forget open -a Spotify',
 ]

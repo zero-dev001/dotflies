@@ -41,6 +41,16 @@ chezmoi init --apply zero-dev001/dotflies
 
 Open a new terminal after applying.
 
+### First login on a new machine
+
+AeroSpace starts at login and launches Brave, iTerm2, Slack and Spotify (`after-startup-command` in `~/.config/aerospace/aerospace.toml`). iTerm2 is opened with plain `open -a`, then asked over AppleScript to type `herdr` into the new window. That AppleScript step needs a one-time Automation consent: macOS prompts "AeroSpace wants to control iTerm" on the first login, so click Allow. If it was dismissed, grant it under System Settings -> Privacy & Security -> Automation -> AeroSpace -> iTerm, or make the prompt reappear with:
+
+```bash
+tccutil reset AppleEvents bobko.aerospace
+```
+
+Until consent is granted the iTerm2 window still opens, only the `herdr` command has to be typed by hand.
+
 ### Optional per-machine settings
 
 Some templates read optional values from chezmoi's own external config (`~/.config/chezmoi/chezmoi.toml`), which lives outside this repo and is never committed. Add a `[data]` table there to set them:
