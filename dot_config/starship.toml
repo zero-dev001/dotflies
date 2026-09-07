@@ -3,11 +3,26 @@
 
 palette = 'catppuccin_mocha'
 
+# Explicit module list instead of $all: $all pulls in every language and cloud
+# module starship knows about, which gets loud in polyglot repos. Order matters.
 format = """
 $os\
 $username\
 $hostname\
-$all\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$package\
+$nodejs\
+$bun\
+$deno\
+$python\
+$rust\
+$golang\
+$ruby\
+$docker_context\
+$kubernetes\
 $fill\
 $cmd_duration $time
 $directory
@@ -15,9 +30,9 @@ $status$character
 """
 
 [character]
-success_symbol = '[>>>>](green bold)'
-error_symbol = '[XXXX](red bold)'
-vicmd_symbol = '[<<<<](mauve bold)'
+success_symbol = '[❯](green bold)'
+error_symbol = '[❯](red bold)'
+vicmd_symbol = '[❮](mauve bold)'
 
 [battery]
 disabled = true
@@ -29,7 +44,7 @@ disabled = true
 style = 'mauve bold'
 disabled = false
 format = '[\[$time\]]($style) '
-time_format = '%y/%m/%d'
+time_format = '%H:%M'
 
 [username]
 style_user = 'mauve bold'
@@ -43,8 +58,9 @@ format = '(white bold)[$hostname](green bold)'
 
 [directory]
 style = 'sky bold'
-truncation_length = 0
-truncate_to_repo = false
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = '…/'
 
 [directory.substitutions]
 "Documents" = "󰈙 "
@@ -52,11 +68,15 @@ truncate_to_repo = false
 "Developer" = "󰲋 "
 
 [fill]
-symbol = ' '
+symbol = '─'
+style = 'overlay0'
 
 [os]
 disabled = false
 style = 'text bold'
+
+[os.symbols]
+Macos = ' '
 
 [git_branch]
 style = 'pink bold'
@@ -64,8 +84,9 @@ style = 'pink bold'
 [git_status]
 style = 'peach bold'
 
+# Off: runs a full diff on every prompt, noticeable in large repos.
 [git_metrics]
-disabled = false
+disabled = true
 added_style = 'green bold'
 deleted_style = 'red bold'
 
@@ -101,6 +122,8 @@ style = 'blue bold'
 [kubernetes]
 disabled = false
 style = 'blue bold'
+# Default format ends in "in ", which only makes sense right before $directory.
+format = '[$symbol$context( \($namespace\))]($style) '
 
 [cmd_duration]
 style = 'yellow bold'
