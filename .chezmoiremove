@@ -1,0 +1,10 @@
+# Targets to delete on apply. Removing a file from the chezmoi source only makes
+# it unmanaged -- it stays on disk -- so retired files are listed here to ensure
+# they are actually removed, including on other machines that auto-sync.
+
+# Retired nvim config: dead LazyVim starter boilerplate, config for neoconf/neodev
+# (never installed; LazyVim uses lazydev.nvim), and stay-centered.nvim (replaced by
+# the built-in scrolloff option).
+.config/nvim/lua/plugins/example.lua
+.config/nvim/lua/plugins/stay-centered.lua
+.config/nvim/.neoconf.json
