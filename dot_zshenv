@@ -1,2 +1,9 @@
+# Keep $path (and $fpath) duplicate-free. .zshrc prepends the same entries on
+# every interactive shell, and PATH is inherited by children, so without this a
+# nested shell grows PATH by 8 entries per level. typeset -U drops a duplicate on
+# assignment while keeping the leftmost copy, so the prepends stay idempotent and
+# still promote an existing entry to the front.
+typeset -U path fpath
+
 [ -f "$HOME/Library/Application Support/org.dfinity.dfx/env" ] && . "$HOME/Library/Application Support/org.dfinity.dfx/env"
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
