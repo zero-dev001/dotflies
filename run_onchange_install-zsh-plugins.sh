@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install Oh My Zsh, Powerlevel10k, zsh-syntax-highlighting, zsh-autosuggestions
+# Install Oh My Zsh, zsh-syntax-highlighting, zsh-autosuggestions, zsh-completions
 set -euo pipefail
 
 ZSH="${ZSH:-$HOME/.oh-my-zsh}"
@@ -11,14 +11,11 @@ if [ ! -d "$ZSH" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-# Install Powerlevel10k theme
+# Remove Powerlevel10k: the prompt is Starship, so the theme was never loaded
 P10K_DIR="$ZSH_CUSTOM/themes/powerlevel10k"
-if [ ! -d "$P10K_DIR" ]; then
-  echo "Installing Powerlevel10k..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
-else
-  echo "Updating Powerlevel10k..."
-  git -C "$P10K_DIR" pull --ff-only 2>/dev/null || true
+if [ -d "$P10K_DIR" ]; then
+  echo "Removing unused Powerlevel10k..."
+  rm -rf "$P10K_DIR"
 fi
 
 # Install zsh-syntax-highlighting

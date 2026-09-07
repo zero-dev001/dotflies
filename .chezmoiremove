@@ -8,3 +8,7 @@
 .config/nvim/lua/plugins/example.lua
 .config/nvim/lua/plugins/stay-centered.lua
 .config/nvim/.neoconf.json
+
+# Retired Powerlevel10k config: the prompt is Starship (ZSH_THEME is empty and
+# .zshrc never sourced ~/.p10k.zsh), so this file was dead weight.
+.p10k.zsh

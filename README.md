@@ -6,7 +6,7 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 
 | Layer | Tool | Config file |
 |---|---|---|
-| Shell | Zsh + Oh My Zsh + Powerlevel10k | `~/.zshrc`, `~/.p10k.zsh` |
+| Shell | Zsh + Oh My Zsh + Starship prompt | `~/.zshrc` |
 | Shell plugins | zsh-syntax-highlighting, zsh-autosuggestions | (via Oh My Zsh) |
 | Editor | Neovim (LazyVim) | `~/.config/nvim/` |
 | Terminal multiplexer | Herdr + Catppuccin | `~/.config/herdr/config.toml` |
@@ -274,7 +274,7 @@ These run via `chezmoi apply` when their source content changes:
 |---|---|---|
 | `run_onchange_before_install-brew-packages.sh.tmpl` | Brewfile hash changes | Runs `brew bundle` |
 | `run_onchange_install-nvm-and-node.sh.tmpl` | `.node-version` changes | Installs NVM + specified Node version |
-| `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh, P10k, plugins |
+| `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh and plugins |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
 | `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
 | `run_onchange_configure-brave.sh` | Script content changes | Applies Brave policies via `defaults`: auto-installs extensions, disables Rewards/VPN promos and the built-in password manager. Profile data (bookmarks, passwords, wallet keys) is machine-bound -- use Brave Sync for that |
@@ -292,7 +292,6 @@ A LaunchAgent (`~/Library/LaunchAgents/com.chezmoi.update.plist`) runs `chezmoi 
 - `~/.aliases.zsh` -- All aliases and shell functions
 - `~/.zshenv` -- Environment (Cargo, dfx)
 - `~/.zprofile` -- Login shell (Homebrew)
-- `~/.p10k.zsh` -- Powerlevel10k prompt
 - `~/.fzf.zsh` / `~/.fzf.bash` -- fzf integration
 
 ### Git
