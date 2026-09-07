@@ -41,6 +41,20 @@ chezmoi init --apply zero-dev001/dotfiles
 
 Open a new terminal after applying.
 
+### Optional per-machine settings
+
+Some templates read optional values from chezmoi's own external config (`~/.config/chezmoi/chezmoi.toml`), which lives outside this repo and is never committed. Add a `[data]` table there to set them:
+
+```toml
+[data]
+projectSrcPath = "Developer/myproject"   # source dir watched by the post-commit backup hook
+backupDestPath = "Backups/myproject"     # backup destination for that hook
+projectBinPath = "Developer/myproject/bin"  # extra dir appended to $PATH
+excludeOrgs = ["some-org", "another-org"]   # orgs hidden from gh-dash's PR/issue sections
+```
+
+All are optional; templates fall back to sane defaults (empty/no-op) when unset.
+
 ---
 
 ## Development workflow

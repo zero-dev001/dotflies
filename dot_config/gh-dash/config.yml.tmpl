@@ -1,18 +1,26 @@
+{{- $excludeOrgs := list -}}
+{{- range dig "excludeOrgs" (list) . -}}
+{{- $excludeOrgs = append $excludeOrgs (printf "-org:%s" .) -}}
+{{- end -}}
+{{- $orgFilter := "" -}}
+{{- if $excludeOrgs -}}
+{{- $orgFilter = printf " %s" (join " " $excludeOrgs) -}}
+{{- end -}}
 prSections:
   - title: My Pull Requests
-    filters: is:open author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+    filters: is:open author:@me{{ $orgFilter }}
   - title: Needs My Review
-    filters: is:open review-requested:@me draft:false -org:Tribe-BTC -org:deezy-inc -org:dannydeezy sort:created-asc
+    filters: is:open review-requested:@me draft:false{{ $orgFilter }} sort:created-asc
   - title: Involved
-    filters: is:open involves:@me -author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+    filters: is:open involves:@me -author:@me{{ $orgFilter }}
 
 issueSections:
   - title: My Issues
-    filters: is:open author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+    filters: is:open author:@me{{ $orgFilter }}
   - title: Assigned
-    filters: is:open assignee:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+    filters: is:open assignee:@me{{ $orgFilter }}
   - title: Involved
-    filters: is:open involves:@me -author:@me -org:Tribe-BTC -org:deezy-inc -org:dannydeezy
+    filters: is:open involves:@me -author:@me{{ $orgFilter }}
 
 notificationsSections:
   - title: All
