@@ -19,3 +19,10 @@
 
 # Retired Syncthing global ignore file: Syncthing is no longer installed.
 .stignore-global
+
+# Retired LazyVim starter boilerplate: the nvim config was cloned from
+# LazyVim/starter, whose nested .git has been removed. Its .gitignore (plugin-dev
+# patterns), README and LICENSE described the template, not this config.
+.config/nvim/.gitignore
+.config/nvim/README.md
+.config/nvim/LICENSE
