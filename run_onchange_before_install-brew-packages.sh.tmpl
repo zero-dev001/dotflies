@@ -9,5 +9,18 @@ if ! command -v brew &>/dev/null; then
 fi
 
 echo "Installing packages from Brewfile..."
-brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"
-echo "Brew packages installed."
+BREWFILE="{{ .chezmoi.sourceDir }}/Brewfile"
+
+# --adopt lets a cask take over an app already sitting in /Applications, but only
+# when the existing copy is identical to the cask version. A hand-installed app at
+# a different version still fails, and brew bundle exits non-zero if any single
+# entry fails -- which under `set -e` would abort the whole chezmoi apply even
+# though every other package installed fine. So warn instead of aborting.
+if ! HOMEBREW_CASK_OPTS="--adopt" brew bundle --file="$BREWFILE"; then
+  echo "" >&2
+  echo "warning: some Brewfile entries failed to install." >&2
+  echo "A common cause is a cask whose app was installed manually outside brew." >&2
+  echo "List them with: brew bundle check --verbose --file=\"$BREWFILE\"" >&2
+  echo "Adopt one with: brew install --cask --adopt <name>" >&2
+fi
+echo "Brew packages step complete."
