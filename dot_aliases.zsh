@@ -29,22 +29,40 @@ fcd() { cd "$(fd --type d --hidden --follow --exclude .git | fzf)" && l; }
 f() { echo "$(fd --type f --hidden --follow --exclude .git | fzf)" | pbcopy; }
 fv() { nvim "$(fd --type f --hidden --follow --exclude .git | fzf)"; }
 
-# tmuxinator IDE layout (Claude 20% left, nvim 80% right top, terminal 20% right bottom)
+# Herdr IDE workspace (Claude 20% left, nvim 80% right top, terminal 20% right bottom)
+# Usage: ide [dir]  -- creates a workspace named after the dir and attaches
 ide() {
-  local dir="${1:-.}"
-  local name=$(basename "$(cd "$dir" 2>/dev/null && pwd)")
-  tmuxinator start ide "$dir" --no-attach
-  tmux resize-pane -t "$name:1.0" -x '20%'
-  tmux resize-pane -t "$name:1.2" -y '20%'
-  tmux select-pane -t "$name:1.1"
-  tmux rename-window -t "$name:1" "$name"
-  tmux attach-session -t "$name"
+  local dir
+  dir="$(cd "${1:-.}" 2>/dev/null && pwd)" || { echo "ide: no such directory: $1" >&2; return 1; }
+  local name="${dir:t}"
+
+  # Make sure the Herdr server is up (it keeps running after detach)
+  if ! herdr status server 2>/dev/null | grep -q 'status: running'; then
+    (nohup herdr server >/dev/null 2>&1 &)
+    local i
+    for i in {1..50}; do
+      herdr status server 2>/dev/null | grep -q 'status: running' && break
+      sleep 0.1
+    done
+  fi
+
+  local ws root right
+  ws="$(herdr workspace create --cwd "$dir" --label "$name" --focus)" || return 1
+  root="$(printf '%s' "$ws" | jq -r '.result.root_pane.pane_id')"
+  right="$(herdr pane split "$root" --direction right --ratio 0.2 --cwd "$dir" --no-focus | jq -r '.result.pane.pane_id')"
+  herdr pane split "$right" --direction down --ratio 0.8 --cwd "$dir" --no-focus >/dev/null
+  herdr pane run "$root" "claude" >/dev/null
+  herdr pane run "$right" "nvim ." >/dev/null
+  herdr pane focus --direction right --pane "$root" >/dev/null
+
+  # Attach unless we are already inside Herdr
+  [ "${HERDR_ENV:-}" = 1 ] || herdr
 }
 
 # Rename tab/window title
 tab() {
-  if [ -n "$TMUX" ]; then
-    tmux rename-window "$1"
+  if [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_TAB_ID:-}" ]; then
+    herdr tab rename "$HERDR_TAB_ID" "$1" >/dev/null
   else
     echo -ne "\033]1;$1\007"
   fi

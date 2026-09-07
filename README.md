@@ -9,7 +9,7 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 | Shell | Zsh + Oh My Zsh + Powerlevel10k | `~/.zshrc`, `~/.p10k.zsh` |
 | Shell plugins | zsh-syntax-highlighting, zsh-autosuggestions | (via Oh My Zsh) |
 | Editor | Neovim (LazyVim) | `~/.config/nvim/` |
-| Terminal multiplexer | tmux + Catppuccin Mocha + tmuxinator | `~/.tmux.conf`, `~/.config/tmuxinator/` |
+| Terminal multiplexer | Herdr + Catppuccin | `~/.config/herdr/config.toml` |
 | Fuzzy finder | fzf | `~/.fzf.zsh` |
 | File manager | yazi | (aliased as `y`) |
 | File listing | eza | (aliased as `ls`, `l`, `lt`) |
@@ -19,7 +19,7 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 | Git | git + lazygit + gh | `~/.gitconfig` |
 | Version control (experimental) | jj (Jujutsu) | (in Brewfile) |
 | Node.js | NVM + Node 22 + Bun | `~/.nvm`, `~/.bun` |
-| AI | Claude Code, 99.nvim (custom) | Brewfile, nvim plugins |
+| AI | Claude Code | Brewfile |
 | Packages | Homebrew (43 formulae, 22 casks, 19 VSCode extensions) | `Brewfile` |
 | Backup | rsync post-commit hook | `~/.githooks/post-commit` |
 | Sync | Syncthing | (brew service) |
@@ -48,12 +48,11 @@ Open a new terminal after applying.
 ### Daily startup
 
 ```bash
-tmux                          # start tmux (sessions persist across terminal closes)
-# or attach to existing:
-tmux a                        # attach to last session
+herdr                         # start Herdr, or re-attach (workspaces persist across terminal closes)
+ide ~/Projects/myapp          # or jump straight into the IDE layout for a project
 ```
 
-Once inside tmux, use **prefix + o** to open the session picker (sessionx with zoxide integration), or create new sessions per project.
+Once inside Herdr, use **prefix + w** to open the workspace picker, or `ide <dir>` to add a workspace per project.
 
 ### Navigating your system
 
@@ -139,64 +138,70 @@ Defined in `~/.aliases.zsh`:
 | `f` | `f` | Fuzzy file picker -> clipboard |
 | `fv` | `fv` | Fuzzy file picker -> Neovim |
 | `y` | `y` | Yazi file manager with cwd sync |
-| `ide [dir]` | `ide ~/Projects/myapp` | tmuxinator IDE layout (Claude + nvim + terminal) |
+| `ide [dir]` | `ide ~/Projects/myapp` | Herdr IDE workspace (Claude + nvim + terminal) |
 
 ---
 
-## Tmux keybindings
+## Herdr keybindings
 
-**Prefix key:** `Ctrl+b` (default)
+Herdr is the terminal workspace manager (replaces tmux). It runs a background server so panes, shells, and Claude sessions survive closing the terminal. Config: `~/.config/herdr/config.toml`.
 
-### Pane navigation
+**Prefix key:** `Ctrl+b`
 
-| Keybinding | Action |
-|---|---|
-| `prefix + h` | Move to left pane |
-| `prefix + j` | Move to pane below |
-| `prefix + k` | Move to pane above |
-| `prefix + l` | Move to right pane |
-| `Alt + Arrow keys` | Switch panes (no prefix needed) |
-
-### Window navigation
+### Panes
 
 | Keybinding | Action |
 |---|---|
-| `Shift + Left` | Previous window |
-| `Shift + Right` | Next window |
-| `Alt + H` | Previous window (vim style) |
-| `Alt + L` | Next window (vim style) |
+| `prefix + h/j/k/l` | Move to pane left/down/up/right |
+| `prefix + v` | Split side by side |
+| `prefix + -` | Split stacked |
+| `prefix + z` | Zoom current pane (toggle) |
+| `prefix + x` | Close pane |
+| `prefix + r` | Resize mode (then h/j/k/l) |
+| `Alt + Arrow` | Resize pane directly |
+| `prefix + e` | Open scrollback in Neovim (replaces copy mode) |
 
-### Splits and sessions
-
-| Keybinding | Action |
-|---|---|
-| `prefix + "` | Split horizontal (in current path) |
-| `prefix + %` | Split vertical (in current path) |
-| `prefix + o` | Open sessionx (session picker with zoxide) |
-| `prefix + p` | Open floax (floating terminal, 80% size) |
-
-### Copy mode (vi-style)
+### Tabs (were tmux windows)
 
 | Keybinding | Action |
 |---|---|
-| `prefix + [` | Enter copy mode |
-| `v` | Start selection |
-| `Ctrl+v` | Toggle rectangle selection |
-| `y` | Copy selection and exit |
+| `prefix + c` | New tab |
+| `prefix + n` / `prefix + p` | Next / previous tab |
+| `prefix + 1..9` | Jump to tab N |
+| `prefix + Shift+T` | Rename tab |
+| `prefix + Shift+X` | Close tab |
 
-### Plugins
+### Workspaces (were tmux sessions)
 
-| Plugin | What it does |
+| Keybinding | Action |
 |---|---|
-| **vim-tmux-navigator** | Seamless `Ctrl+h/j/k/l` between vim and tmux panes |
-| **tmux-yank** | System clipboard integration |
-| **tmux-resurrect** | Save/restore sessions across restarts |
-| **tmux-continuum** | Auto-save sessions (restored on tmux start) |
-| **sessionx** | Fuzzy session picker with zoxide |
-| **floax** | Floating terminal overlay |
-| **tmux-fzf-url** | Open URLs from terminal output with fzf |
-| **tmux-fzf** | Fuzzy finder for tmux objects |
-| **tmux-thumbs** | Quick copy of text patterns (paths, hashes, etc.) |
+| `prefix + w` | Workspace picker |
+| `prefix + Shift+N` | New workspace |
+| `prefix + Shift+W` | Rename workspace |
+| `prefix + Shift+D` | Close workspace |
+| `Alt + Shift+H/L` | Previous / next workspace |
+| `prefix + b` | Toggle sidebar |
+| `prefix + d` | Detach (server keeps running) |
+
+### Popups
+
+| Keybinding | Action |
+|---|---|
+| `prefix + g` | lazygit in a floating popup |
+| `prefix + f` | Floating scratch terminal |
+| `prefix + ?` | Keybinding help |
+| `prefix + s` | Settings |
+
+### CLI
+
+```bash
+herdr                         # launch or re-attach
+herdr status                  # client + server status
+herdr workspace list          # JSON list of workspaces
+herdr session list            # named sessions (default is "default")
+herdr server reload-config    # after editing config.toml
+herdr update                  # self-update
+```
 
 ---
 
@@ -213,14 +218,6 @@ LazyVim provides a batteries-included Neovim config. Key highlights:
 | `Space + b + b` | Switch buffer |
 | `Space + /` | Search in current buffer |
 | `Space + s + g` | Grep across project |
-
-### Custom plugins
-
-| Plugin | Keybinding | Action |
-|---|---|---|
-| **99.nvim** | `<leader>mm` | Select AI model |
-| **99.nvim** | `<leader>9v` (visual) | AI on visual selection |
-| **99.nvim** | `<leader>9s` | Stop all AI requests |
 
 ---
 
@@ -264,7 +261,7 @@ These run via `chezmoi apply` when their source content changes:
 | `run_onchange_before_install-brew-packages.sh.tmpl` | Brewfile hash changes | Runs `brew bundle` |
 | `run_onchange_install-nvm-and-node.sh.tmpl` | `.node-version` changes | Installs NVM + specified Node version |
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh, P10k, plugins |
-| `run_onchange_install-tmux-plugins.sh` | Script content changes | Installs/updates TPM + tmux plugins |
+| `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
 
 ### Auto-sync
 
@@ -287,11 +284,11 @@ A LaunchAgent (`~/Library/LaunchAgents/com.chezmoi.update.plist`) runs `chezmoi 
 - `~/.gitignore` -- Global gitignore (Node, Next.js, env files, etc.)
 - `~/.githooks/post-commit` -- Rsync backup on every commit
 
-### Tmux
-- `~/.tmux.conf` -- Full tmux config with Catppuccin theme and 12 plugins
+### Herdr
+- `~/.config/herdr/config.toml` -- Herdr keybindings, Catppuccin theme, lazygit/terminal popups
 
 ### Neovim
-- `~/.config/nvim/` -- LazyVim configuration with custom 99.nvim AI plugin
+- `~/.config/nvim/` -- LazyVim configuration
 
 ### Sync
 - `~/.stignore-global` -- Syncthing global ignore patterns
@@ -310,8 +307,8 @@ A LaunchAgent (`~/Library/LaunchAgents/com.chezmoi.update.plist`) runs `chezmoi 
 | Find and edit a specific file | `fv` (fzf -> nvim) |
 | Search for text across a project | `rg "pattern"` or Neovim `<Space>sg` |
 | Git operations | `lazygit` for TUI, `gh` for GitHub |
-| Quick terminal in tmux | `prefix + p` (floax floating terminal) |
-| Switch tmux sessions | `prefix + o` (sessionx with zoxide) |
+| Floating terminal / lazygit | `prefix + f` / `prefix + g` (Herdr popups) |
+| Switch workspaces | `prefix + w` (Herdr workspace picker) |
 | Look up a command you forgot | `tldr <command>` or `Ctrl+R` (atuin history) |
 | Copy a file path quickly | `f` (fzf -> clipboard) |
 
@@ -471,9 +468,9 @@ Telescope uses fd to find files and ripgrep to search text, with fzf-style fuzzy
 
 ---
 
-### Tmux
+### Herdr
 
-#### IDE layout (tmuxinator)
+#### IDE layout
 
 ```
 ┌──────┬─────────────────────────────────┐
@@ -489,23 +486,20 @@ Telescope uses fd to find files and ripgrep to search text, with fzf-style fuzzy
 Launch it with one command:
 
 ```bash
-ide ~/Projects/myapp          # opens the layout in that directory
-ide                           # opens in current directory
-
-# or directly:
-tmuxinator start ide ~/Projects/myapp
+ide ~/Projects/myapp          # new workspace named "myapp" with this layout, then attach
+ide                           # same, in the current directory
 ```
 
-Template lives at `~/.config/tmuxinator/ide.yml` (managed by chezmoi).
+`ide` is a shell function in `~/.aliases.zsh`. It starts the Herdr server if needed, creates a workspace via the socket API (`herdr workspace create`, `herdr pane split`, `herdr pane run`), starts Claude on the left and Neovim on the top right, and attaches. Run it again for another project: each call adds a workspace, switch with `prefix + w`.
 
-**Manual setup** (without tmuxinator):
+**Manual setup** (without `ide`):
 
 ```bash
-tmux                          # start tmux (or tmux a to reattach)
+herdr                         # start or attach
 claude                        # pane 1 -- claude
-prefix + %                    # vertical split (left/right)
+prefix + v                    # split side by side
 nvim .                        # pane 2 -- nvim
-prefix + "                    # horizontal split (top/bottom)
+prefix + -                    # split stacked
                               # pane 3 -- terminal
 ```
 
@@ -513,47 +507,41 @@ prefix + "                    # horizontal split (top/bottom)
 
 | Keybinding | Action |
 |---|---|
-| `Ctrl+h` | Move left (works from nvim too -- vim-tmux-navigator) |
-| `Ctrl+j` | Move down |
-| `Ctrl+k` | Move up |
-| `Ctrl+l` | Move right |
-| `Alt+Arrow` | Move between panes (no prefix needed) |
+| `prefix + h/j/k/l` | Move left / down / up / right |
+| `prefix + Tab` | Cycle to next pane |
+| `prefix + z` | Zoom pane (toggle) |
 
 #### Resizing panes
 
 | Keybinding | Action |
 |---|---|
-| `prefix + z` | Zoom current pane to full screen (toggle) |
-| `prefix + Arrow` | Resize pane in that direction |
-| Mouse drag | Drag pane borders to resize |
+| `Alt + Arrow` | Resize in that direction |
+| `prefix + r` | Enter resize mode, then h/j/k/l |
+| Mouse drag | Drag pane borders |
 
-#### Windows and sessions
-
-| Keybinding | Action |
-|---|---|
-| `prefix + c` | Create new window (like a new tab) |
-| `Shift+Left/Right` | Switch between windows |
-| `Alt+H` / `Alt+L` | Switch windows (vim style) |
-| `prefix + o` | Session picker (sessionx + zoxide) |
-| `prefix + p` | Floating terminal (floax) |
-| `prefix + d` | Detach from session (it keeps running) |
-
-#### Copy mode (vi-style)
+#### Tabs and workspaces
 
 | Keybinding | Action |
 |---|---|
-| `prefix + [` | Enter copy mode (scroll/select) |
-| `v` | Start selection |
-| `Ctrl+v` | Rectangle selection |
-| `y` | Copy and exit |
-| `/` | Search forward |
-| `?` | Search backward |
+| `prefix + c` | New tab |
+| `prefix + n` / `prefix + p` | Next / previous tab |
+| `prefix + w` | Workspace picker |
+| `prefix + Shift+N` | New workspace |
+| `prefix + d` | Detach (everything keeps running) |
 
-#### Useful extras
+#### Scrollback and copy
 
-| Keybinding / Command | Action |
+| Keybinding | Action |
 |---|---|
-| `prefix + I` | Install tmux plugins (after adding to conf) |
-| `tmux-fzf-url` | Opens URLs from terminal output with fzf |
-| `tmux-thumbs` | Quick-copy paths, hashes, IPs from output |
-| Sessions auto-save | tmux-continuum saves every 15 min, resurrect restores on start |
+| Mouse select | Copies to clipboard automatically |
+| `prefix + e` | Open pane scrollback in Neovim (search, yank, etc.) |
+| Mouse wheel | Scroll pane history |
+
+#### Persistence
+
+| What | How |
+|---|---|
+| Detach / close terminal | Server keeps running, `herdr` re-attaches with everything intact |
+| Reboot / server restart | Workspaces, tabs, panes, cwd, and layout restore as fresh shells |
+| Claude Code sessions | Resumed automatically after a server restart |
+| Update without losing panes | `herdr update --handoff` |

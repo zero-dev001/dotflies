@@ -16,9 +16,9 @@ Quick reference for every tool in this dotfiles setup. No fluff — just the com
 - [Git](#git)
 - [Lazygit](#lazygit)
 - [GitHub CLI (gh)](#github-cli-gh)
-- [Tmux](#tmux)
+- [Herdr](#herdr)
 - [Neovim](#neovim)
-- [IDE Layout (tmuxinator)](#ide-layout-tmuxinator)
+- [IDE Layout (Herdr)](#ide-layout-herdr)
 - [Dotfiles (chezmoi)](#dotfiles-chezmoi)
 - [Node.js (nvm & bun)](#nodejs-nvm--bun)
 - [Misc CLI Tools](#misc-cli-tools)
@@ -320,76 +320,80 @@ gh run watch <id>        # Watch live output
 
 ---
 
-## Tmux
+## Herdr
+
+Terminal workspace manager (replaces tmux). Background server keeps panes, shells, and Claude sessions alive when you close the terminal.
 
 **Prefix:** `Ctrl+b` (press first, then the key)
 
-### Sessions
+### Workspaces (were sessions)
 
 | Keys | Action |
 |------|--------|
-| `prefix + d` | Detach |
-| `prefix + o` | Session picker (sessionx + zoxide) |
-| `prefix + $` | Rename session |
+| `prefix + w` | Workspace picker |
+| `prefix + Shift+N` | New workspace |
+| `prefix + Shift+W` | Rename workspace |
+| `prefix + Shift+D` | Close workspace |
+| `Alt + Shift+H/L` | Previous/next workspace |
+| `prefix + b` | Toggle sidebar |
+| `prefix + d` | Detach (everything keeps running) |
 
 ```bash
-tmux new -s name         # New named session
-tmux ls                  # List sessions
-tmux a -t name           # Attach to session
-tmux kill-session -t n   # Kill session
+herdr                    # Launch or re-attach
+herdr status             # Client + server status
+herdr workspace list     # List workspaces (JSON)
+herdr session list       # Named sessions
+herdr server stop        # Stop the server (kills all panes)
 ```
 
-### Windows
+### Tabs (were windows)
 
 | Keys | Action |
 |------|--------|
-| `prefix + c` | New window |
-| `prefix + ,` | Rename window |
-| `prefix + &` | Close window |
-| `Shift + Left/Right` | Previous/next window |
-| `Alt + H/L` | Previous/next window |
-| `prefix + <number>` | Go to window N |
+| `prefix + c` | New tab |
+| `prefix + Shift+T` | Rename tab |
+| `prefix + Shift+X` | Close tab |
+| `prefix + n` / `prefix + p` | Next/previous tab |
+| `prefix + <number>` | Go to tab N |
 
 ### Panes
 
 | Keys | Action |
 |------|--------|
-| `prefix + "` | Split horizontal |
-| `prefix + %` | Split vertical |
+| `prefix + v` | Split side by side |
+| `prefix + -` | Split stacked |
 | `prefix + h/j/k/l` | Navigate panes (vim-style) |
+| `prefix + Tab` | Cycle panes |
 | `prefix + z` | Zoom (toggle fullscreen pane) |
 | `prefix + x` | Close pane |
-| `prefix + Arrow` | Resize pane |
-| `prefix + !` | Pane → new window |
-| `Alt + Arrow` | Switch pane (no prefix) |
+| `prefix + r` | Resize mode (h/j/k/l) |
+| `Alt + Arrow` | Resize pane directly |
 
-### Copy Mode (vi-style)
-
-| Keys | Action |
-|------|--------|
-| `prefix + [` | Enter copy mode |
-| `v` | Start selection |
-| `Ctrl+v` | Rectangle select |
-| `y` | Yank (copies to system clipboard) |
-| `q` | Exit copy mode |
-
-### Plugins
+### Scrollback & Copy
 
 | Keys | Action |
 |------|--------|
-| `prefix + p` | Floating terminal (floax, 80% screen) |
-| `prefix + o` | Session picker (sessionx) |
+| Mouse select | Copies to clipboard |
+| Mouse wheel | Scroll history |
+| `prefix + e` | Open scrollback in Neovim (search, yank) |
 
-### Session Persistence
+### Popups
 
-Sessions auto-save every 15 minutes via tmux-continuum + tmux-resurrect.
+| Keys | Action |
+|------|--------|
+| `prefix + g` | lazygit (floating, 90%) |
+| `prefix + f` | Floating terminal (80%) |
+| `prefix + ?` | Help |
+| `prefix + s` | Settings |
+
+### Persistence
+
+Detaching keeps the server and every process running. After a reboot, Herdr restores workspaces, tabs, panes, cwd, and layout as fresh shells; Claude Code sessions resume automatically.
 
 ```bash
-prefix + Ctrl+s          # Manual save
-prefix + Ctrl+r          # Manual restore
+herdr update --handoff   # Update without losing running panes
+herdr server reload-config   # Apply config.toml changes
 ```
-
----
 
 ## Neovim
 
@@ -418,7 +422,7 @@ Press `Space` and wait — **which-key** shows all available mappings.
 | `H / L` | Previous/next buffer |
 | `Space + bd` | Delete buffer |
 | `s` | Flash jump (type 2 chars to jump) |
-| `Ctrl+h/j/k/l` | Navigate splits (works across tmux) |
+| `Ctrl+h/j/k/l` | Navigate splits |
 
 ### Code (LSP)
 
@@ -450,24 +454,17 @@ Press `Space` and wait — **which-key** shows all available mappings.
 | `Space + gs` | Git status |
 | `]h / [h` | Next/prev git hunk |
 
-### AI (99.nvim)
 
-| Keys | Action |
-|------|--------|
-| `Space + mm` | Select AI model |
-| `Space + 9v` | AI on visual selection |
-| `Space + 9s` | Stop all AI requests |
+## IDE Layout (Herdr)
 
----
-
-## IDE Layout (tmuxinator)
-
-Pre-configured tmux layout: Claude Code + Neovim + terminal.
+Pre-configured Herdr workspace: Claude Code + Neovim + terminal.
 
 ```bash
 ide                      # Open IDE in current dir
 ide ~/project            # Open IDE for specific project
 ```
+
+Each call creates a new workspace named after the directory. Switch between projects with `prefix + w`.
 
 **Layout:**
 ```
@@ -607,7 +604,7 @@ f               # Fuzzy find file → copy path to clipboard
 fv              # Fuzzy find file → open in Neovim
 fcd             # Fuzzy find directory → cd + list
 y               # Open yazi, sync cwd on quit
-ide [dir]       # Launch tmuxinator IDE layout
+ide [dir]       # Launch Herdr IDE workspace
 mkd <dir>       # mkdir + cd in one step
 
 # Networking
@@ -671,8 +668,8 @@ Applied automatically on first `chezmoi apply`. Key settings:
 | Quick man page | `tldr <command>` |
 | Manage dotfiles | `chezmoi edit/apply/update` |
 | Find Neovim commands | Press `Space` and wait |
-| Tmux session picker | `prefix + o` |
-| Tmux floating term | `prefix + p` |
+| Herdr workspace picker | `prefix + w` |
+| Herdr floating term / lazygit | `prefix + f` / `prefix + g` |
 | Quick HTTP server | `server` or `server 3000` |
 | Create dir + cd | `mkd new-folder` |
 | Public IP address | `ip` |

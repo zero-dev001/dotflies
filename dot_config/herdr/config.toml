@@ -1,0 +1,78 @@
+# Herdr configuration (managed by chezmoi)
+# Defaults: herdr --default-config
+# Reload:   herdr server reload-config   (or prefix + Shift+R)
+
+onboarding = false
+
+[theme]
+name = "catppuccin"
+
+[terminal]
+# Inherit cwd from the source pane when splitting
+new_cwd = "follow"
+
+[session]
+# Resume Claude Code / supported agent conversations after a server restart
+resume_agents_on_restore = true
+
+[keys]
+prefix = "ctrl+b"
+
+# Panes (vim-style, same muscle memory as the old tmux config)
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+split_vertical = "prefix+v"        # side by side
+split_horizontal = "prefix+minus"  # stacked
+close_pane = "prefix+x"
+zoom = "prefix+z"
+resize_mode = "prefix+r"
+resize_pane_left = "alt+left"
+resize_pane_down = "alt+down"
+resize_pane_up = "alt+up"
+resize_pane_right = "alt+right"
+
+# Tabs (were tmux windows)
+new_tab = "prefix+c"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+rename_tab = "prefix+shift+t"
+close_tab = "prefix+shift+x"
+
+# Workspaces (were tmux sessions) -- prefix+w picker replaces sessionx
+workspace_picker = "prefix+w"
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+previous_workspace = "alt+shift+h"
+next_workspace = "alt+shift+l"
+
+# Misc
+detach = "prefix+d"
+toggle_sidebar = "prefix+b"
+edit_scrollback = "prefix+e"       # scrollback in $EDITOR (nvim) -- replaces tmux copy mode
+help = "prefix+?"
+
+# Floating lazygit (replaces floax + lazygit combo)
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "lazygit"
+description = "lazygit popup"
+width = "90%"
+height = "90%"
+
+# Floating scratch terminal (replaces floax)
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "$SHELL -l"
+description = "floating terminal"
+width = "80%"
+height = "80%"
+
+[ui]
+sidebar_width = 26
+mouse_capture = true
+copy_on_select = true

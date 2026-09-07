@@ -47,6 +47,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 eval "$(zoxide init zsh --cmd z)"
 eval "$(atuin init zsh)"
 eval "$(mise activate zsh)"
+command -v herdr >/dev/null && eval "$(herdr completion zsh)"
 
 # Aliases and shell functions
 [ -f ~/.aliases.zsh ] && source ~/.aliases.zsh

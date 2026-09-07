@@ -39,7 +39,6 @@
     "text": "lt",
     "keyword": ";;lt"
   },
-
   {
     "name": "fd: List all files recursively",
     "text": "fd",
@@ -75,7 +74,6 @@
     "text": "fd --exclude {cursor}",
     "keyword": ";;fde"
   },
-
   {
     "name": "rg: Search pattern in all files",
     "text": "rg \"{cursor}\"",
@@ -111,7 +109,6 @@
     "text": "rg \"{cursor}\" --glob \"*.\"",
     "keyword": ";;rgg"
   },
-
   {
     "name": "fzf: Preview files while picking",
     "text": "fzf --preview 'bat --color=always {}'",
@@ -137,7 +134,6 @@
     "text": "rg --line-number . | fzf --delimiter : --preview 'bat --color=always {1} --highlight-line {2}' | awk -F: '{print \"+\"$2, $1}' | xargs nvim",
     "keyword": ";;fzrg"
   },
-
   {
     "name": "Git: Open lazygit",
     "text": "lazygit",
@@ -158,7 +154,6 @@
     "text": "gh pr checkout {cursor}",
     "keyword": ";;ghco"
   },
-
   {
     "name": "Node: Switch Node version",
     "text": "nvm use {cursor}",
@@ -179,7 +174,6 @@
     "text": "bun run dev",
     "keyword": ";;bd"
   },
-
   {
     "name": "Atuin: Search history",
     "text": "atuin search {cursor}",
@@ -190,7 +184,6 @@
     "text": "atuin stats",
     "keyword": ";;att"
   },
-
   {
     "name": "Chezmoi: Track a new file",
     "text": "chezmoi add {cursor}",
@@ -221,49 +214,46 @@
     "text": "chezmoi cd",
     "keyword": ";;czc"
   },
-
   {
-    "name": "Tmux: Start tmux",
-    "text": "tmux",
-    "keyword": ";;tm"
+    "name": "Herdr: Launch / attach",
+    "text": "herdr",
+    "keyword": ";;hd"
   },
   {
-    "name": "Tmux: Attach to last session",
-    "text": "tmux a",
-    "keyword": ";;tma"
+    "name": "Herdr: Status",
+    "text": "herdr status",
+    "keyword": ";;hds"
   },
   {
-    "name": "Tmux: IDE layout",
+    "name": "Herdr: IDE workspace",
     "text": "ide {cursor}",
     "keyword": ";;ide"
   },
   {
-    "name": "Tmux: IDE layout (tmuxinator)",
-    "text": "tmuxinator start ide {cursor}",
-    "keyword": ";;tmi"
-  },
-
-  {
-    "name": "Tmux Keys: Pane Navigation",
-    "text": "Ctrl+h/j/k/l → move between panes (works from nvim too)\nAlt+Arrow    → move between panes (no prefix)\nprefix + z   → zoom pane to fullscreen (toggle)",
-    "keyword": ";;tkp"
+    "name": "Herdr: List workspaces",
+    "text": "herdr workspace list",
+    "keyword": ";;hdw"
   },
   {
-    "name": "Tmux Keys: Windows & Sessions",
-    "text": "Shift+Left/Right → switch windows\nAlt+H / Alt+L    → switch windows (vim style)\nprefix + c       → new window\nprefix + o       → session picker (sessionx + zoxide)\nprefix + p       → floating terminal (floax)\nprefix + d       → detach session",
-    "keyword": ";;tkw"
+    "name": "Herdr: Reload config",
+    "text": "herdr server reload-config",
+    "keyword": ";;hdr"
   },
   {
-    "name": "Tmux Keys: Splits",
-    "text": "prefix + \"  → split horizontal (current path)\nprefix + %  → split vertical (current path)",
-    "keyword": ";;tks"
+    "name": "Herdr Keys: Panes",
+    "text": "prefix + h/j/k/l → move between panes\nprefix + v       → split side by side\nprefix + -       → split stacked\nprefix + z       → zoom pane (toggle)\nprefix + x       → close pane\nAlt+Arrow        → resize pane\nprefix + e       → scrollback in nvim",
+    "keyword": ";;hkp"
   },
   {
-    "name": "Tmux Keys: Copy Mode (vi)",
-    "text": "prefix + [  → enter copy mode\nv           → start selection\nCtrl+v      → rectangle selection\ny           → copy and exit\n/           → search forward\n?           → search backward",
-    "keyword": ";;tkc"
+    "name": "Herdr Keys: Tabs & Workspaces",
+    "text": "prefix + c       → new tab\nprefix + n / p   → next / previous tab\nprefix + 1..9    → jump to tab\nprefix + w       → workspace picker\nprefix + Shift+N → new workspace\nAlt+Shift+H/L    → prev / next workspace\nprefix + d       → detach (keeps running)",
+    "keyword": ";;hkw"
   },
-
+  {
+    "name": "Herdr Keys: Popups",
+    "text": "prefix + g → lazygit popup\nprefix + f → floating terminal\nprefix + ? → help\nprefix + s → settings",
+    "keyword": ";;hkg"
+  },
   {
     "name": "Neovim Keys: Find & Search",
     "text": "<Space>ff → find files\n<Space>fg → live grep (search in files)\n<Space>fr → recent files\n<Space>fb → browse buffers\n<Space>sg → grep across project\n<Space>sw → search word under cursor\n<Space>/  → fuzzy search in buffer",
@@ -275,23 +265,15 @@
     "keyword": ";;nkn"
   },
   {
-    "name": "Neovim Keys: 99.nvim AI",
-    "text": "<leader>mm → select AI model\n<leader>9v → AI on visual selection\n<leader>9s → stop all AI requests",
-    "keyword": ";;nka"
-  },
-
-  {
     "name": "Yazi Keys: Search & Navigate",
     "text": "s     → search files by name (fd)\nS     → search files by content (rg)\nCtrl+S→ cancel search\nz     → jump via fzf\nZ     → jump via zoxide\nf     → filter current dir\n/     → find next   ? → find prev\nn / N → next / prev match",
     "keyword": ";;yk"
   },
-
   {
     "name": "fzf Keys: Built-in",
     "text": "Ctrl+T → fuzzy find file/dir, paste path\nAlt+C  → fuzzy find dir, cd into it\nCtrl+R → fuzzy search history (atuin overrides this)",
     "keyword": ";;fzk"
   },
-
   {
     "name": "Combo: Jump to project + code",
     "text": "cd {cursor} && nvim .",
