@@ -5,5 +5,11 @@
 # still promote an existing entry to the front.
 typeset -U path fpath
 
+# Personal bin dirs belong in .zshenv, not .zshrc: `ssh host cmd` and other
+# non-interactive shells never source .zshrc, so tools installed here (herdr,
+# for one) would be invisible to `herdr --remote`. typeset -U above keeps the
+# .zshrc prepend from duplicating these.
+path=($HOME/bin $HOME/.local/bin $path)
+
 [ -f "$HOME/Library/Application Support/org.dfinity.dfx/env" ] && . "$HOME/Library/Application Support/org.dfinity.dfx/env"
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

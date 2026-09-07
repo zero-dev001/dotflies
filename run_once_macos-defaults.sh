@@ -186,6 +186,47 @@ defaults write com.apple.dock showhidden -bool true
 # Don't show recent applications in Dock
 defaults write com.apple.dock show-recents -bool false
 
+# Magnify icons on hover
+defaults write com.apple.dock magnification -bool true
+defaults write com.apple.dock largesize -int 73
+
+# Dock contents. macOS seeds a fresh account with a dozen Apple apps; replace
+# that with the short list below. Only apps present on this machine are added,
+# because a missing app shows up as a "?" tile. Add apps in the order they
+# should appear.
+dock_apps=(
+  "/Applications/Brave Browser.app"
+  "/Applications/Parallels Desktop.app"
+)
+defaults write com.apple.dock persistent-apps -array
+for app in "${dock_apps[@]}"; do
+  [ -d "$app" ] || continue
+  url="file://${app// /%20}/"
+  defaults write com.apple.dock persistent-apps -array-add "<dict>
+    <key>tile-data</key><dict>
+      <key>file-data</key><dict>
+        <key>_CFURLString</key><string>${url}</string>
+        <key>_CFURLStringType</key><integer>15</integer>
+      </dict>
+    </dict>
+    <key>tile-type</key><string>file-tile</string>
+  </dict>"
+done
+
+# Right side of the Dock: a Downloads stack, sorted by date added, fan view.
+defaults write com.apple.dock persistent-others -array "<dict>
+  <key>tile-data</key><dict>
+    <key>file-data</key><dict>
+      <key>_CFURLString</key><string>file://${HOME}/Downloads/</string>
+      <key>_CFURLStringType</key><integer>15</integer>
+    </dict>
+    <key>arrangement</key><integer>2</integer>
+    <key>displayas</key><integer>0</integer>
+    <key>showas</key><integer>1</integer>
+  </dict>
+  <key>tile-type</key><string>directory-tile</string>
+</dict>"
+
 ###############################################################################
 # Window / UI Speed                                                           #
 ###############################################################################
