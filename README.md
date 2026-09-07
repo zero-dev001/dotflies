@@ -277,6 +277,7 @@ These run via `chezmoi apply` when their source content changes:
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh, P10k, plugins |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
 | `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
+| `run_onchange_configure-brave.sh` | Script content changes | Applies Brave policies via `defaults`: auto-installs extensions, disables Rewards/VPN promos and the built-in password manager. Profile data (bookmarks, passwords, wallet keys) is machine-bound -- use Brave Sync for that |
 
 ### Auto-sync
 
