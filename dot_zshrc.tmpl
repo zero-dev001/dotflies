@@ -10,6 +10,12 @@ DISABLE_AUTO_TITLE="true"
 # Add zsh-completions to fpath before compinit (which Oh My Zsh calls)
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
+# Skip oh-my-zsh's compaudit pass (compinit -C instead). compaudit reports no
+# insecure directories here and cost ~260ms of every shell startup. Trade-off:
+# compinit no longer notices new completion files - after installing a tool that
+# ships completions, run `rm ~/.zcompdump*` once.
+ZSH_DISABLE_COMPFIX=true
+
 plugins=(zsh-syntax-highlighting zsh-autosuggestions zsh-completions)
 source $ZSH/oh-my-zsh.sh
 
@@ -26,10 +32,44 @@ fi
 # Man pages in Neovim with syntax highlighting
 export MANPAGER='nvim +Man!'
 
-# NVM
+# NVM - lazy. Sourcing nvm.sh eagerly cost ~460ms per shell, almost all of it
+# nvm_auto resolving the default alias. Instead put the default version's bin on
+# $path directly (node/npm/npx work immediately, at full speed) and defer nvm.sh
+# until the first actual `nvm` call. Falls back to eager sourcing if the default
+# alias cannot be resolved, so a stale $path is never possible.
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  () {
+    local target resolved
+    [ -r "$NVM_DIR/alias/default" ] || return 1
+    read -r target < "$NVM_DIR/alias/default"
+    # `default` may point at another alias (lts/*, stable, ...); follow the chain.
+    local hops=0
+    while [ -r "$NVM_DIR/alias/$target" ] && [ $hops -lt 5 ]; do
+      read -r target < "$NVM_DIR/alias/$target"
+      (( hops++ ))
+    done
+    if [ -d "$NVM_DIR/versions/node/$target/bin" ]; then
+      resolved=$target
+    else
+      # A partial version such as `22`: take the highest matching install.
+      # (n) sorts numerically, so v22.9.0 orders before v22.20.0.
+      local -a matches=("$NVM_DIR"/versions/node/v${target#v}.*(N/n))
+      (( $#matches )) && resolved=${matches[-1]:t}
+    fi
+    [ -n "$resolved" ] && [ -d "$NVM_DIR/versions/node/$resolved/bin" ] || return 1
+    path=("$NVM_DIR/versions/node/$resolved/bin" $path)
+  } || . "$NVM_DIR/nvm.sh"
+
+  if (( ! $+functions[nvm] )); then
+    nvm() {
+      unfunction nvm
+      . "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+      nvm "$@"
+    }
+  fi
+fi
 
 # PATH
 {{ if dig "projectBinPath" "" . }}
