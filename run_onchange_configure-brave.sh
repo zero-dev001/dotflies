@@ -15,6 +15,14 @@ set -euo pipefail
 
 DOMAIN="com.brave.Browser"
 
+# Brave keeps prefs in memory and can overwrite external `defaults` writes when
+# it exits, so quit it first (same approach as run_once_macos-defaults.sh).
+if pgrep -qx "Brave Browser"; then
+  echo "Quitting Brave so policy writes are not clobbered on exit..."
+  osascript -e 'tell application "Brave Browser" to quit' 2>/dev/null || true
+  for _ in $(seq 1 20); do pgrep -qx "Brave Browser" || break; sleep 0.5; done
+fi
+
 # Extensions to install automatically on a new machine.
 # "normal_installed" auto-installs but still lets you disable/remove them by
 # hand; use "force_installed" instead to make one permanent.
@@ -65,5 +73,28 @@ defaults write "$DOMAIN" BraveVPNDisabled -bool true
 # Privacy defaults, consistent with the rest of this setup.
 defaults write "$DOMAIN" MetricsReportingEnabled -bool false
 defaults write "$DOMAIN" BackgroundModeEnabled -bool false
+
+# Mirrors of settings already set by hand in this profile, so a new machine
+# starts out matching rather than needing them re-toggled.
+defaults write "$DOMAIN" SpellcheckEnabled -bool false
+defaults write "$DOMAIN" BraveWebDiscoveryEnabled -bool false
+defaults write "$DOMAIN" BraveP3AEnabled -bool false
+
+# Optional: pin startup page and search engine. Left unset because this profile
+# currently uses the Brave defaults -- uncomment and fill in to enforce them.
+#
+# defaults write "$DOMAIN" RestoreOnStartup -int 4          # 1=URLs, 4=last session, 5=new tab
+# defaults write "$DOMAIN" RestoreOnStartupURLs -array "https://example.com"
+# defaults write "$DOMAIN" HomepageLocation -string "https://example.com"
+# defaults write "$DOMAIN" ShowHomeButton -bool true
+# defaults write "$DOMAIN" DefaultSearchProviderEnabled -bool true
+# defaults write "$DOMAIN" DefaultSearchProviderName -string "Brave"
+# defaults write "$DOMAIN" DefaultSearchProviderSearchURL \
+#   -string "https://search.brave.com/search?q={searchTerms}"
+#
+# Not settable this way: most Brave UI preferences (MRU tab cycling, wide
+# location bar, toolbar buttons, theme colour, social-embed blocking) have no
+# policy equivalent. Those travel only via Brave Sync, which is already enabled
+# on this profile.
 
 echo "Brave policies applied (${#EXTENSIONS[@]} extensions). Restart Brave, then verify at brave://policy"
