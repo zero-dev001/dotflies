@@ -276,6 +276,7 @@ These run via `chezmoi apply` when their source content changes:
 | `run_onchange_install-nvm-and-node.sh.tmpl` | `.node-version` changes | Installs NVM + specified Node version |
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh, P10k, plugins |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
+| `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
 
 ### Auto-sync
 
