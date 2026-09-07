@@ -266,7 +266,7 @@ chezmoi apply                  # triggers NVM install automatically
 
 ### Auto-install scripts
 
-These run via `chezmoi apply` when their source content changes:
+These run via `chezmoi apply`. Most are `run_onchange_` (only when their source content changes) or `run_once_` (first apply only); a plain `run_` script runs on every apply:
 
 | Script | Trigger | What it does |
 |---|---|---|
@@ -275,7 +275,7 @@ These run via `chezmoi apply` when their source content changes:
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh and plugins |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
 | `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
-| `run_onchange_configure-iterm2.sh` | Script content changes | Points iTerm2 at the Catppuccin Mocha profile as its default. Skipped while iTerm2 is running, because it rewrites its plist on quit -- set it once via Settings -> Profiles in that case |
+| `run_configure-iterm2.sh` | Every apply | Points iTerm2 at the Catppuccin Mocha profile as its default. Runs every time because iTerm2 creates its own default profile on first launch and can overwrite the pointer, so re-asserting makes it self-healing. Silent when already correct; skipped while iTerm2 is running, since it rewrites its plist on quit -- set it once via Settings -> Profiles in that case |
 | `run_onchange_configure-brave.sh` | Script content changes | Applies Brave policies via `defaults`: auto-installs extensions, disables Rewards/VPN promos and the built-in password manager. Profile data (bookmarks, passwords, wallet keys) is machine-bound -- use Brave Sync for that |
 | `run_once_set-default-browser.sh` | First apply only | Requests Brave as the default browser. Skips if it already is; otherwise macOS shows a confirmation prompt that must be accepted by hand (no silent method exists) |
 

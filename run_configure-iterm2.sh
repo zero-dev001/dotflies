@@ -14,6 +14,12 @@ set -euo pipefail
 # while iTerm2 is running is silently clobbered. Hence the guard below: set the
 # pointer only when iTerm2 is not running (a fresh machine, or a `chezmoi apply`
 # from another terminal), and otherwise print the one manual step.
+#
+# This is a plain run_ script rather than run_onchange_, so it re-checks on every
+# apply. It has to: on a machine where iTerm2 has never launched there is no
+# plist yet, and iTerm2 creates its own default profile on first run, which can
+# overwrite the pointer set here. Re-asserting each apply makes that self-healing
+# instead of a one-shot that silently loses. It stays quiet when nothing changes.
 
 PROFILE_GUID="FA516BFD-8F6D-4C09-94EA-217F0E5E5CDF"
 PROFILE_NAME="Catppuccin Mocha"
@@ -21,7 +27,11 @@ PROFILE_NAME="Catppuccin Mocha"
 # lsappinfo, not pgrep: the GUI app runs in a different session from a shell
 # started by chezmoi, so pgrep does not see it, and iTermServer-* lingers after
 # iTerm2 quits, which makes process-name matching wrong in both directions.
-if [ -n "$(lsappinfo find bundleid=com.googlecode.iterm2 2>/dev/null)" ]; then
+current="$(defaults read com.googlecode.iterm2 "Default Bookmark Guid" 2>/dev/null || true)"
+
+if [ "$current" = "$PROFILE_GUID" ]; then
+  : # Already the default. Say nothing, so a login-time apply stays quiet.
+elif [ -n "$(lsappinfo find bundleid=com.googlecode.iterm2 2>/dev/null)" ]; then
   echo "iTerm2 is running, so its default-profile pointer was left alone."
   echo "To finish: Settings -> Profiles -> \"$PROFILE_NAME\" -> Other Actions... -> Set as Default."
 else
