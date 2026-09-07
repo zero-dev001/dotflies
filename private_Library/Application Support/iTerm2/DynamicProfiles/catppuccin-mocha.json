@@ -14,7 +14,7 @@
       "Right Option Key Sends": 2,
       "Cursor Type": 1,
       "Blinking Cursor": false,
-      "Use Cursor Guide": true,
+      "Use Cursor Guide": false,
       "Blur": true,
       "Transparency": 0.15,
       "Minimum Contrast": 0,
@@ -182,10 +182,10 @@
         "Color Space": "sRGB"
       },
       "Cursor Guide Color": {
-        "Red Component": 0.803922,
-        "Green Component": 0.839216,
-        "Blue Component": 0.956863,
-        "Alpha Component": 1,
+        "Red Component": 0.192157,
+        "Green Component": 0.196078,
+        "Blue Component": 0.266667,
+        "Alpha Component": 0.5,
         "Color Space": "sRGB"
       },
       "Selected Text Color": {
