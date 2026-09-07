@@ -3,7 +3,6 @@
 	email = 97211514+andredevjs@users.noreply.github.com
 [core]
 	editor = vi
-	hooksPath = ~/.githooks
 	excludesfile = ~/.gitignore
 	pager = delta
 [init]

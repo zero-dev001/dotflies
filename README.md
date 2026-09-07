@@ -20,9 +20,7 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 | Version control (experimental) | jj (Jujutsu) | (in Brewfile) |
 | Node.js | NVM + Node 22 + Bun | `~/.nvm`, `~/.bun` |
 | AI | Claude Code | Brewfile |
-| Packages | Homebrew (43 formulae, 22 casks, 19 VSCode extensions) | `Brewfile` |
-| Backup | rsync post-commit hook | `~/.githooks/post-commit` |
-| Sync | Syncthing | (brew service) |
+| Packages | Homebrew (49 formulae, 26 casks, 21 VSCode extensions) | `Brewfile` |
 
 ---
 
@@ -47,8 +45,6 @@ Some templates read optional values from chezmoi's own external config (`~/.conf
 
 ```toml
 [data]
-projectSrcPath = "Developer/myproject"   # source dir watched by the post-commit backup hook
-backupDestPath = "Backups/myproject"     # backup destination for that hook
 projectBinPath = "Developer/myproject/bin"  # extra dir appended to $PATH
 excludeOrgs = ["some-org", "another-org"]   # orgs hidden from gh-dash's PR/issue sections
 ```
@@ -99,7 +95,7 @@ gh pr view --web              # open PR in browser
 gh pr checkout <number>       # check out a PR locally
 ```
 
-Your git config uses `~/.githooks/` for custom hooks (post-commit rsync backup) and `~/.gitignore` as a global ignore file.
+Your git config uses `~/.gitignore` as a global ignore file.
 
 ### Search and find
 
@@ -296,18 +292,14 @@ A LaunchAgent (`~/Library/LaunchAgents/com.chezmoi.update.plist`) runs `chezmoi 
 - `~/.fzf.zsh` / `~/.fzf.bash` -- fzf integration
 
 ### Git
-- `~/.gitconfig` -- User, editor, hooks path, global ignore
+- `~/.gitconfig` -- User, editor, global ignore
 - `~/.gitignore` -- Global gitignore (Node, Next.js, env files, etc.)
-- `~/.githooks/post-commit` -- Rsync backup on every commit
 
 ### Herdr
 - `~/.config/herdr/config.toml` -- Herdr keybindings, Catppuccin theme, lazygit/terminal popups
 
 ### Neovim
 - `~/.config/nvim/` -- LazyVim configuration
-
-### Sync
-- `~/.stignore-global` -- Syncthing global ignore patterns
 
 ### System
 - `~/Library/LaunchAgents/com.chezmoi.update.plist` -- Auto-sync on login

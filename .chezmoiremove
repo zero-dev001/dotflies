@@ -12,3 +12,10 @@
 # Retired Powerlevel10k config: the prompt is Starship (ZSH_THEME is empty and
 # .zshrc never sourced ~/.p10k.zsh), so this file was dead weight.
 .p10k.zsh
+
+# Retired rsync backup: a global core.hooksPath post-commit hook that mirrored one
+# hardcoded project tree on every commit in every repo. No longer used.
+.githooks
+
+# Retired Syncthing global ignore file: Syncthing is no longer installed.
+.stignore-global

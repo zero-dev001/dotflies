@@ -46,7 +46,6 @@ brew "ripgrep"
 brew "sevenzip"
 brew "starship"
 brew "stow"
-brew "syncthing", restart_service: :changed
 brew "telnet"
 brew "tldr"
 brew "wget"

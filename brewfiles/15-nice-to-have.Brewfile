@@ -10,7 +10,6 @@ brew "mermaid-cli"
 brew "pandoc"
 brew "poppler"
 brew "sevenzip"
-brew "syncthing", restart_service: :changed
 brew "yt-dlp"
 cask "discord"
 cask "docker-desktop"
