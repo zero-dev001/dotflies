@@ -78,6 +78,9 @@ cask "slack"
 cask "spotify"
 cask "stats"
 cask "sublime-text"
+# pkg cask, not an app cask: the installer needs an admin password and is
+# what creates the /usr/local/bin/tailscale CLI wrapper.
+cask "tailscale-app"
 cask "telegram"
 cask "time-out"
 vscode "adpyke.codesnap"
