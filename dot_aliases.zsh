@@ -68,6 +68,26 @@ tab() {
   fi
 }
 
+# Git - the oh-my-zsh git plugin aliases actually in use, owned here so they
+# survive dropping the plugin. Expansions copied verbatim from git.plugin.zsh;
+# sourced after oh-my-zsh, so these shadow the plugin's identical definitions.
+alias gst="git status"
+alias gco="git checkout"
+alias gcb="git checkout -b"
+alias gcB="git checkout -B"
+alias gb="git branch"
+alias gl="git pull"          # NB: oh-my-zsh's gl is pull, not log
+alias gf="git fetch"
+alias gp="git push"
+alias gpu="git push upstream"
+alias ga="git add"
+alias gc="git commit --verbose"
+alias gd="git diff"
+alias glo="git log --oneline --decorate"
+alias glog="git log --oneline --decorate --graph"
+alias gstp="git stash pop"
+alias gts="git tag --sign"
+
 # Networking
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
