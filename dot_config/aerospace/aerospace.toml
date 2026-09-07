@@ -7,7 +7,7 @@ start-at-login = true
 # Auto-launch apps on startup
 after-startup-command = [
     'exec-and-forget open -a "Brave Browser"',
-    'exec-and-forget open -a iTerm',
+    "exec-and-forget osascript -e 'tell application \"iTerm2\" to create window with default profile command \"herdr\"'",
     'exec-and-forget open -a Slack',
     'exec-and-forget open -a Spotify',
 ]
