@@ -30,13 +30,13 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 
 ```bash
 # One-liner
-curl -fsSL https://raw.githubusercontent.com/zero-dev001/dotfiles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/zero-dev001/dotflies/main/install.sh | bash
 
 # Or step by step
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install chezmoi
-chezmoi init --apply zero-dev001/dotfiles
+chezmoi init --apply zero-dev001/dotflies
 ```
 
 Open a new terminal after applying.

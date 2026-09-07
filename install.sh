@@ -20,6 +20,6 @@ fi
 
 # 3. Initialize and apply chezmoi from this repo
 echo "Initializing chezmoi..."
-chezmoi init --apply zero-dev001/dotfiles
+chezmoi init --apply zero-dev001/dotflies
 
 echo "Done! Open a new terminal to see the changes."
