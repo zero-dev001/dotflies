@@ -266,13 +266,14 @@ chezmoi apply                  # triggers NVM install automatically
 
 ### Auto-install scripts
 
-These run via `chezmoi apply`. Most are `run_onchange_` (only when their source content changes) or `run_once_` (first apply only); a plain `run_` script runs on every apply:
+These run via `chezmoi apply`. Most are `run_onchange_` (only when their source content changes) or `run_once_` (once per content hash, so first apply and again after any edit); a plain `run_` script runs on every apply:
 
 | Script | Trigger | What it does |
 |---|---|---|
 | `run_onchange_before_install-brew-packages.sh.tmpl` | Brewfile hash changes | Runs `brew bundle` |
 | `run_onchange_install-nvm-and-node.sh.tmpl` | `.node-version` changes | Installs NVM + specified Node version |
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh and plugins |
+| `run_once_macos-defaults.sh` | First apply, and again after any edit | Writes macOS `defaults`: fast key repeat, no autocorrect, trackpad and mouse tracking speed at max, tap to click, Finder list view with path bar, Dock on the left with auto-hide and 36px icons, screenshots to `~/Desktop/screenshots`. Restarts Dock and Finder at the end; tracking speed and a few keyboard keys only take effect after logout/login |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
 | `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
 | `run_configure-iterm2.sh` | Every apply | Points iTerm2 at the Catppuccin Mocha profile as its default. Runs every time because iTerm2 creates its own default profile on first launch and can overwrite the pointer, so re-asserting makes it self-healing. Silent when already correct; skipped while iTerm2 is running, since it rewrites its plist on quit -- set it once via Settings -> Profiles in that case |

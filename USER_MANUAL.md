@@ -641,11 +641,12 @@ afk             # Sleep display (lock screen)
 
 ### macOS Defaults (run_once)
 
-Applied automatically on first `chezmoi apply`. Key settings:
+Applied automatically on first `chezmoi apply`, and again whenever the script is edited. Key settings:
 
 - **Keyboard**: Blazing fast key repeat, no press-and-hold, no auto-correct/smart quotes/dashes
+- **Trackpad / Mouse**: Tracking speed at max, tap to click, Ctrl+scroll to zoom (speed applies after logout/login)
 - **Finder**: Full path in title bar, folders on top, list view, no .DS_Store on network/USB
-- **Dock**: Auto-hide with zero delay, 36px icons, no recent apps, fast Mission Control
+- **Dock**: Left edge, auto-hide with zero delay, 36px icons, no recent apps, fast Mission Control
 - **Dialogs**: Expanded save/print panels, save to disk by default
 - **Screenshots**: PNG format, no shadow, saved to `~/Desktop/screenshots/`
 - **Security**: Immediate password after sleep, Secure Keyboard Entry

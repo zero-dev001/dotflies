@@ -4,14 +4,16 @@
 # Adapted from https://github.com/mathiasbynens/dotfiles
 # Only includes settings compatible with macOS Sequoia / Apple Silicon
 
+# run_once_ in chezmoi means "once per content hash": editing this file makes it
+# run again on the next `chezmoi apply`. Every write below is idempotent, so a
+# re-run is safe; it ends by restarting Dock, Finder and friends.
+#
+# Nothing here needs root, so there is deliberately no `sudo -v`. The login
+# LaunchAgent runs `chezmoi update --no-tty`, where a sudo prompt cannot be
+# answered and would only stall the run.
+
 # Close System Settings to prevent overriding changes
 osascript -e 'tell application "System Settings" to quit' 2>/dev/null
-
-# Ask for the administrator password upfront
-sudo -v
-
-# Keep-alive: update existing sudo timestamp until script has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
 # Keyboard (THE biggest win for developers)                                   #
@@ -51,6 +53,12 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# Tracking speed for trackpad and mouse. 3.0 is the right-hand end of the
+# System Settings slider. Read at login, so a change here needs a logout/login
+# (or a reboot) before it is felt.
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 3.0
+defaults write NSGlobalDomain com.apple.mouse.scaling -float 3.0
 
 # Use scroll gesture with the Ctrl (^) modifier key to zoom
 defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
@@ -144,6 +152,9 @@ defaults write com.apple.screencapture disable-shadow -bool true
 
 # Set icon size to 36 pixels
 defaults write com.apple.dock tilesize -int 36
+
+# Pin the Dock to the left edge
+defaults write com.apple.dock orientation -string "left"
 
 # Scale effect instead of Genie for minimize
 defaults write com.apple.dock mineffect -string "scale"
