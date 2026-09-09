@@ -10,6 +10,10 @@ DISABLE_AUTO_TITLE="true"
 # Add zsh-completions to fpath before compinit (which Oh My Zsh calls)
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
+# Grok CLI completions. run_once_install-grok.sh suppresses the installer's own
+# ~/.zshrc block, so chezmoi stays the only writer of this file.
+[ -d "$HOME/.grok/completions/zsh" ] && fpath+=$HOME/.grok/completions/zsh
+
 # Skip oh-my-zsh's compaudit pass (compinit -C instead). compaudit reports no
 # insecure directories here and cost ~260ms of every shell startup. Trade-off:
 # compinit no longer notices new completion files - after installing a tool that
@@ -81,6 +85,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 [ -d "$(brew --prefix)/opt/mysql-client/bin" ] && export PATH="$(brew --prefix)/opt/mysql-client/bin:$PATH"
 [ -d "$(brew --prefix)/opt/llvm/bin" ] && export PATH="$(brew --prefix)/opt/llvm/bin:$PATH"
+[ -d "$HOME/.grok/bin" ] && export PATH="$HOME/.grok/bin:$PATH"
 
 # Tool init
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

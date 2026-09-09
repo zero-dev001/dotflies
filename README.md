@@ -22,6 +22,7 @@ macOS development environment managed with [chezmoi](https://www.chezmoi.io/). A
 | Version control (experimental) | jj (Jujutsu) | (in Brewfile) |
 | Node.js | NVM + Node 22 + Bun | `~/.nvm`, `~/.bun` |
 | AI | Claude Code | Brewfile |
+| AI | Grok CLI (`grok`, `agent`) | `~/.grok/config.toml` |
 | Packages | Homebrew (49 formulae, 26 casks, 21 VSCode extensions) | `Brewfile` |
 
 ---
@@ -285,6 +286,7 @@ These run via `chezmoi apply`. Most are `run_onchange_` (only when their source 
 | `run_onchange_install-zsh-plugins.sh` | Script content changes | Installs/updates Oh My Zsh and plugins |
 | `run_once_macos-defaults.sh` | First apply, and again after any edit | Writes macOS `defaults`: fast key repeat, no autocorrect, trackpad and mouse tracking speed at max, tap to click, Finder list view with path bar, Dock on the left with auto-hide, 36px icons, magnification, and its contents reset to Brave, Parallels and a Downloads stack (apps not installed are skipped), screenshots to `~/Desktop/screenshots`. Restarts Dock and Finder at the end; tracking speed and a few keyboard keys only take effect after logout/login |
 | `run_once_install-herdr.sh` | First apply only | Installs Herdr (terminal workspace manager) to `~/.local/bin` |
+| `run_once_install-grok.sh` | First apply only | Installs the Grok CLI (`grok` + `agent`) to `~/.grok/bin` via `https://x.ai/cli/install.sh`. Runs the installer with `SHELL=''` and `~/.grok/bin` already on `PATH` so it neither appends its own block to `~/.zshrc` (chezmoi owns that file) nor symlinks into `~/.local/bin`; `dot_zshrc.tmpl` handles `PATH` and completions. Auth is interactive -- run `grok login` once per machine |
 | `run_once_after_set-wallpaper.sh` | First apply only, after files are written | Sets `~/Pictures/Wallpapers/omarchy-quattro-official-5k.webp` as the desktop picture |
 | `run_configure-iterm2.sh` | Every apply | Points iTerm2 at the Catppuccin Mocha profile as its default. Runs every time because iTerm2 creates its own default profile on first launch and can overwrite the pointer, so re-asserting makes it self-healing. Silent when already correct; skipped while iTerm2 is running, since it rewrites its plist on quit -- set it once via Settings -> Profiles in that case |
 | `run_onchange_configure-brave.sh` | Script content changes | Applies Brave policies via `defaults`: auto-installs extensions, disables Rewards/VPN promos and the built-in password manager. Profile data (bookmarks, passwords, wallet keys) is machine-bound -- use Brave Sync for that |
