@@ -2,7 +2,7 @@
 
 # ~/.macos — macOS defaults for development
 # Adapted from https://github.com/mathiasbynens/dotfiles
-# Only includes settings compatible with macOS Sequoia / Apple Silicon
+# Only includes settings compatible with macOS 27 / Apple Silicon
 
 # run_once_ in chezmoi means "once per content hash": editing this file makes it
 # run again on the next `chezmoi apply`. Every write below is idempotent, so a
@@ -60,10 +60,9 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.trackpad.scaling -float 3.0
 defaults write NSGlobalDomain com.apple.mouse.scaling -float 3.0
 
-# Use scroll gesture with the Ctrl (^) modifier key to zoom
-defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+# Ctrl-scroll to zoom is not scriptable: com.apple.universalaccess is protected,
+# so `defaults write` there is silently discarded. Set it by hand in
+# System Settings > Accessibility > Zoom.
 
 ###############################################################################
 # Finder                                                                      #
@@ -240,9 +239,6 @@ defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 # Set Help Viewer windows to non-floating mode
 defaults write com.apple.helpviewer DevMode -bool true
 
-# Disable Resume system-wide
-defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
-
 ###############################################################################
 # Security                                                                    #
 ###############################################################################
@@ -256,10 +252,10 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 ###############################################################################
 
 # Only use UTF-8 in Terminal.app
-defaults write com.apple.terminal StringEncodings -array 4
+defaults write com.apple.Terminal StringEncodings -array 4
 
 # Enable Secure Keyboard Entry in Terminal.app
-defaults write com.apple.terminal SecureKeyboardEntry -bool true
+defaults write com.apple.Terminal SecureKeyboardEntry -bool true
 
 # Disable the annoying line marks in Terminal.app
 defaults write com.apple.Terminal ShowLineMarks -int 0
@@ -332,16 +328,6 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
 
 ###############################################################################
-# Mail                                                                        #
-###############################################################################
-
-# Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>`
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-
-# Disable inline attachments (just show the icons)
-defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
-
-###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
@@ -349,7 +335,6 @@ for app in "Activity Monitor" \
 	"cfprefsd" \
 	"Dock" \
 	"Finder" \
-	"Mail" \
 	"Messages" \
 	"Photos" \
 	"SystemUIServer" \
