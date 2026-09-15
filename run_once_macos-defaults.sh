@@ -254,8 +254,12 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.Terminal StringEncodings -array 4
 
-# Enable Secure Keyboard Entry in Terminal.app
-defaults write com.apple.Terminal SecureKeyboardEntry -bool true
+# Secure Keyboard Entry stays off in Terminal.app. Terminal asserts secure input
+# for as long as it is running, not just while it is frontmost, and secure input
+# blocks AeroSpace from receiving its hotkeys. iTerm2 is the daily driver here and
+# only asserts secure input while frontmost, so enable it there instead if the
+# keylogging protection is wanted.
+defaults write com.apple.Terminal SecureKeyboardEntry -bool false
 
 # Disable the annoying line marks in Terminal.app
 defaults write com.apple.Terminal ShowLineMarks -int 0
